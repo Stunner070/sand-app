@@ -76,6 +76,14 @@
         .page { display: none; animation: fadeIn 0.3s; }
         .page.active { display: block; }
 
+        /* New ROI Styles */
+        .roi-container { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
+        .roi-item { margin-bottom: 10px; }
+        .roi-label { font-size: 0.9rem; color: #555; }
+        .roi-value { font-size: 1.2rem; font-weight: 700; color: #e65100; }
+        .small-roi-note { font-size: 0.7rem; color: #888; }
+
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -119,11 +127,18 @@
                 <div class="big-number" id="savingDisplay">&euro; 420</div>
                 <div class="small-note" id="note-annual">vs. Gas/Heat Pump</div>
             </div>
-            <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
-            <div class="result-box">
-                <div class="label" style="text-align: center;" id="label-roi">Solar Earn-Back Time</div>
-                <div class="med-number" id="roiDisplay">4.5 Years</div>
-                <div class="small-note" id="note-roi">Reduced from 7.5 years</div>
+
+            <div class="roi-container">
+                <div class="roi-item">
+                    <div class="roi-label" id="label-roi-solar-simple">Solar Earn-Back Time</div>
+                    <div class="roi-value" id="roiDisplay">4.5 Years</div>
+                    <div class="small-roi-note" id="note-roi">Reduced from 7.5 years</div>
+                </div>
+                <div class="roi-item">
+                    <div class="roi-label" id="label-roi-sand-simple">Connection Fee ROI</div>
+                    <div class="roi-value" id="contributionRoiSimpleDisplay">9.7 Years</div>
+                    <div class="small-roi-note" id="note-contribution-roi-simple">Time to earn back the connection fee.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -137,9 +152,19 @@
                 <span class="label" id="label-excess">Excess Electricity (kWh)</span>
                 <input type="number" min="0" value="2000" id="excess" oninput="calcAdvanced()">
             </div>
+            <div class="input-group">
+                <span class="label" id="label-panels-advanced">Number of Solar Panels</span>
+                <input type="number" min="0" value="10" id="panels-advanced" oninput="calcAdvanced()">
+            </div>
         </div>
         <div class="card">
             <h3 id="perf-h3">Sand Battery Performance</h3>
+            <div class="input-group" style="margin-bottom: 0;">
+                <span class="label" id="label-efficiency">Battery Efficiency</span>
+                <span class="value-display">100%</span>
+            </div>
+            <hr style="border-color: #eee; opacity: 1; margin: 10px 0 20px 0;">
+
             <div style="margin-bottom: 20px;">
                 <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
                     <span id="label-waste">Energy Wasted (Grid)</span>
@@ -174,10 +199,21 @@
                 <div class="big-number" id="totalSaveDisplay">&euro; 440</div>
                 <div class="small-note" id="note-total">Fixed Savings + Solar Bonus</div>
             </div>
+
+            <div class="roi-container">
+                <div class="roi-item">
+                    <div class="roi-label" id="label-roi-solar-advanced">Solar Earn-Back Time</div>
+                    <div class="roi-value" id="roiAdvancedDisplay">4.5 Years</div>
+                </div>
+                <div class="roi-item">
+                    <div class="roi-label" id="label-roi-sand-advanced">Connection Fee ROI</div>
+                    <div class="roi-value" id="contributionRoiAdvancedDisplay">9.7 Years</div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- PAGE 3: PRO CALCULATOR (NEW) -->
+    <!-- PAGE 3: PRO CALCULATOR (UPDATED) -->
     <div id="pro" class="page">
         <div class="card">
             <h3 id="pro-h3">Full Analysis</h3>
@@ -214,6 +250,18 @@
             <div class="result-box" style="background:#f9fbe7; padding:15px; border-radius:10px; border:1px solid #c5e1a5;">
                 <div class="label" style="text-align: center; color:#33691e;" id="label-pro-total">Total Annual Benefit</div>
                 <div class="big-number" style="color:#33691e;" id="proTotalDisplay">&euro; 692</div>
+            </div>
+
+            <div class="roi-container">
+                <div class="roi-item">
+                    <div class="roi-label" id="label-pro-roi">Solar Earn-Back Time</div>
+                    <div class="roi-value" id="proRoiDisplay">4.5 Years</div>
+                </div>
+                <div class="roi-item">
+                    <div class="roi-label" id="label-contribution-roi">Connection Fee ROI</div>
+                    <div class="roi-value" id="contributionRoiProDisplay">9.7 Years</div>
+                    <div class="small-roi-note" id="note-contribution-roi">Time to earn back the connection fee.</div>
+                </div>
             </div>
         </div>
     </div>
@@ -253,7 +301,7 @@
         <h3 style="color: #0277bd; margin-bottom: 10px;" id="pro-logic-h3">Pro Calculation Breakdown</h3>
         <ul class="info-list">
             <li id="li-pro-1"><strong>Comprehensive:</strong> Combines your specific bill savings with your exact surplus generation.</li>
-            <li id="li-pro-2"><strong>The Formula:</strong> (Fixed Maintenance Savings) + (8% of Current Bill) + (Excess kWh × &euro;0.12).</li>
+            <li id="li-pro-2"><strong>Efficiency Included:</strong> The Solar Bonus calculation uses **100% efficiency** (1.0) to maximize your heat credit value.</li>
             <li id="li-pro-3"><strong>Result:</strong> This gives the most accurate projection of your financial advantage with Solar Saver.</li>
         </ul>
     </div>
@@ -274,7 +322,7 @@
             tabVideo: "Video",
             h3Simple: "Your Situation",
             lblPanels: "Number of Solar Panels",
-            lblBill: "Monthly Energy Bill (&euro;)",
+            lblBill: "Monthly Energy Bill (€)",
             h3Results: "Estimated Results",
             lblAnnual: "Annual Savings",
             noteAnnual: "vs. Gas/Heat Pump",
@@ -284,7 +332,9 @@
             h3Advanced: "Your Surplus Energy",
             descAdvanced: "How much electricity do you export to the grid per year?",
             lblExcess: "Excess Electricity (kWh)",
+            lblPanelsAdvanced: "Number of Solar Panels",
             h3Perf: "Sand Battery Performance",
+            lblEfficiency: "Battery Efficiency",
             lblWaste: "Energy Wasted (Grid)",
             lblStored: "Stored in Sand Battery",
             storedText: "Heat Stored",
@@ -296,13 +346,15 @@
             noteTotal: "Fixed Savings + Solar Bonus",
             h3Pro: "Full Analysis",
             lblProPanels: "Total Solar Panels",
-            lblProBill: "Current Monthly Bill (&euro;)",
+            lblProBill: "Current Monthly Bill (€)",
             lblProExcess: "Excess Energy (kWh/yr)",
+            lblProEff: "Battery Efficiency Used",
             h3ProResults: "Your Personal Solar Saver Plan",
             lblBreakFixed: "Fixed Maint. Savings",
             lblBreakEff: "Efficiency Gain (8%)",
             lblBreakSolar: "Solar Surplus Bonus",
             lblProTotal: "Total Annual Benefit",
+            lblProRoi: "Solar Earn-Back Time",
             h3Video: "Our Prototype in Action",
             descVideo: "See how the Sand Battery powers a neighborhood.",
             h3Logic: "How We Calculate This",
@@ -312,8 +364,15 @@
             quote: "\"Our algorithm factors in post-2027 energy prices, beating grid export fees while undercutting gas prices.\"",
             h3ProLogic: "Pro Calculation Breakdown",
             liPro1: "<strong>Comprehensive:</strong> Combines your specific bill savings with your exact surplus generation.",
-            liPro2: "<strong>The Formula:</strong> (Fixed Maintenance Savings) + (8% of Current Bill) + (Excess kWh × &euro;0.12).",
+            liPro2: "<strong>Efficiency Included:</strong> The Solar Bonus calculation uses **100% efficiency** (1.0) to maximize your heat credit value.",
             liPro3: "<strong>Result:</strong> This gives the most accurate projection of your financial advantage with Solar Saver.",
+            lblContributionRoi: "Connection Fee ROI",
+            noteContributionRoi: "Time to earn back the connection fee.",
+            lblRoiSolarSimple: "Solar Earn-Back Time",
+            lblRoiSandSimple: "Connection Fee ROI",
+            noteContributionRoiSimple: "Time to earn back the connection fee.",
+            lblRoiSolarAdvanced: "Solar Earn-Back Time",
+            lblRoiSandAdvanced: "Connection Fee ROI",
             btnJoin: "Join the Pilot"
         },
         nl: {
@@ -324,7 +383,7 @@
             tabVideo: "Video",
             h3Simple: "Uw Situatie",
             lblPanels: "Aantal Zonnepanelen",
-            lblBill: "Maandelijkse Energierekening (&euro;)",
+            lblBill: "Maandelijkse Energierekening (€)",
             h3Results: "Geschatte Resultaten",
             lblAnnual: "Jaarlijkse Besparing",
             noteAnnual: "t.o.v. Gas/Warmtepomp",
@@ -334,7 +393,9 @@
             h3Advanced: "Uw Energieoverschot",
             descAdvanced: "Hoeveel stroom levert u jaarlijks terug aan het net?",
             lblExcess: "Overtollige Stroom (kWh)",
+            lblPanelsAdvanced: "Aantal Zonnepanelen",
             h3Perf: "Zandbatterij Prestaties",
+            lblEfficiency: "Batterij Efficiëntie",
             lblWaste: "Verspilde Energie (Net)",
             lblStored: "Opgeslagen in Zandbatterij",
             storedText: "Warmte Opgeslagen",
@@ -346,13 +407,15 @@
             noteTotal: "Vaste Besparing + Zonne-Bonus",
             h3Pro: "Volledige Analyse",
             lblProPanels: "Totaal Zonnepanelen",
-            lblProBill: "Huidige Maandelijkse Rekening (&euro;)",
+            lblProBill: "Huidige Maandelijkse Rekening (€)",
             lblProExcess: "Overtollige Energie (kWh/jr)",
+            lblProEff: "Batterij Efficiëntie Gebruikt",
             h3ProResults: "Uw Persoonlijke Solar Saver Plan",
             lblBreakFixed: "Vaste Onderhoudsbesparing",
             lblBreakEff: "Efficiëntiewinst (8%)",
             lblBreakSolar: "Zonne-Overschot Bonus",
             lblProTotal: "Totaal Jaarlijks Voordeel",
+            lblProRoi: "Terugverdientijd Panelen",
             h3Video: "Onze Prototype in Actie",
             descVideo: "Zie hoe de Zandbatterij een buurt van energie voorziet.",
             h3Logic: "Hoe we dit berekenen",
@@ -362,8 +425,15 @@
             quote: "\"Ons algoritme houdt rekening met energieprijzen na 2027: beter dan terugleverkosten en goedkoper dan gas.\"",
             h3ProLogic: "Pro Berekening Uitleg",
             liPro1: "<strong>Compleet:</strong> Combineert uw specifieke rekeningbesparing met uw exacte overschot.",
-            liPro2: "<strong>De Formule:</strong> (Vaste Onderhoudsbesparing) + (8% van Huidige Rekening) + (Overschot kWh × &euro;0,12).",
+            liPro2: "<strong>Efficiëntie Inbegrepen:</strong> De Zonne-Bonus berekening gebruikt **100% efficiëntie** (1.0) om uw warmtekredietwaarde te maximaliseren.",
             liPro3: "<strong>Resultaat:</strong> Dit geeft de meest nauwkeurige projectie van uw voordeel met Solar Saver.",
+            lblContributionRoi: "Aansluitkosten Terugverdientijd",
+            noteContributionRoi: "Tijd om de aansluitkosten terug te verdienen." ,
+            lblRoiSolarSimple: "Terugverdientijd Panelen",
+            lblRoiSandSimple: "Aansluitkosten Terugverdientijd",
+            noteContributionRoiSimple: "Tijd om de aansluitkosten terug te verdienen.",
+            lblRoiSolarAdvanced: "Terugverdientijd Panelen",
+            lblRoiSandAdvanced: "Aansluitkosten Terugverdientijd",
             btnJoin: "Meld u aan voor de Pilot"
         }
     };
@@ -371,6 +441,22 @@
     let currentLang = 'en';
 
     // --- LOGIC START ---
+
+    // Helper function to calculate Contribution ROI based on Total Benefit
+    function calculateContributionRoi(totalBenefit) {
+        const CONTRIBUTION_FEE = 5337; // €5337 is the max regulated connection fee.
+        const AVOIDED_MAINTENANCE = 150; // Add maintenance saving back into ROI calculation
+        let roiBenefit = totalBenefit + AVOIDED_MAINTENANCE;
+        let contributionRoi = (roiBenefit > 0) ? CONTRIBUTION_FEE / roiBenefit : 99;
+        return contributionRoi;
+    }
+
+    // Helper function to calculate Solar ROI
+    function calculateSolarRoi(panels) {
+        let roi = 7.5 - (panels * 0.12);
+        if (roi < 4.0) roi = 4.0;
+        return roi;
+    }
 
     function toggleLanguage() {
         currentLang = currentLang === 'en' ? 'nl' : 'en';
@@ -388,14 +474,20 @@
         document.getElementById("results-h3").innerHTML = t.h3Results;
         document.getElementById("label-annual").innerHTML = t.lblAnnual;
         document.getElementById("note-annual").innerHTML = t.noteAnnual;
-        document.getElementById("label-roi").innerHTML = t.lblRoi;
+
+        // Updated ROI Labels in Simple Tab
+        document.getElementById("label-roi-solar-simple").innerHTML = t.lblRoiSolarSimple;
         document.getElementById("note-roi").innerHTML = t.noteRoi;
+        document.getElementById("label-roi-sand-simple").innerHTML = t.lblRoiSandSimple;
+        document.getElementById("note-contribution-roi-simple").innerHTML = t.noteContributionRoiSimple;
 
         // Advanced Tab
         document.getElementById("advanced-h3").innerHTML = t.h3Advanced;
         document.getElementById("advanced-desc").innerHTML = t.descAdvanced;
         document.getElementById("label-excess").innerHTML = t.lblExcess;
+        document.getElementById("label-panels-advanced").innerHTML = t.lblPanelsAdvanced;
         document.getElementById("perf-h3").innerHTML = t.h3Perf;
+        document.getElementById("label-efficiency").innerHTML = t.lblEfficiency;
         document.getElementById("label-waste").innerHTML = t.lblWaste;
         document.getElementById("label-stored").innerHTML = t.lblStored;
         document.getElementById("note-perf").innerHTML = t.notePerf;
@@ -405,16 +497,24 @@
         document.getElementById("label-total").innerHTML = t.lblTotal;
         document.getElementById("note-total").innerHTML = t.noteTotal;
 
+        // Updated ROI Labels in Advanced Tab
+        document.getElementById("label-roi-solar-advanced").innerHTML = t.lblRoiSolarAdvanced;
+        document.getElementById("label-roi-sand-advanced").innerHTML = t.lblRoiSandAdvanced;
+
         // Pro Tab
         document.getElementById("pro-h3").innerHTML = t.h3Pro;
         document.getElementById("label-pro-panels").innerHTML = t.lblProPanels;
         document.getElementById("label-pro-bill").innerHTML = t.lblProBill;
         document.getElementById("label-pro-excess").innerHTML = t.lblProExcess;
+        document.getElementById("label-pro-eff").innerHTML = t.lblProEff;
         document.getElementById("pro-results-h3").innerHTML = t.h3ProResults;
         document.getElementById("breakdown-fixed").innerHTML = t.lblBreakFixed;
         document.getElementById("breakdown-eff").innerHTML = t.lblBreakEff;
         document.getElementById("breakdown-solar").innerHTML = t.lblBreakSolar;
         document.getElementById("label-pro-total").innerHTML = t.lblProTotal;
+        document.getElementById("lblProRoi").innerHTML = t.lblProRoi;
+        document.getElementById("label-contribution-roi").innerHTML = t.lblContributionRoi;
+        document.getElementById("note-contribution-roi").innerHTML = t.noteContributionRoi;
 
         // General
         document.getElementById("video-h3").innerHTML = t.h3Video;
@@ -467,50 +567,101 @@
         let b = bInput ? parseInt(bInput) : 0;
 
         let annualSavings = 200 + (b * 12 * 0.08) + (p * 15);
-        let roi = 7.5 - (p * 0.12);
-        if (roi < 4.0) roi = 4.0;
 
-        let roiString = roi.toFixed(1);
-        if(currentLang === 'nl') roiString = roiString.replace('.', ',');
+        // Calculate ROIs
+        let solarRoi = calculateSolarRoi(p);
+        let contributionRoi = calculateContributionRoi(annualSavings);
+
+        let solarRoiString = solarRoi.toFixed(1);
+        let contributionRoiString = contributionRoi.toFixed(1);
+
+        if(currentLang === 'nl') {
+            solarRoiString = solarRoiString.replace('.', ',');
+            contributionRoiString = contributionRoiString.replace('.', ',');
+        }
 
         document.getElementById("savingDisplay").innerText = "\u20AC " + Math.round(annualSavings);
-        document.getElementById("roiDisplay").innerText = roiString + " " + translations[currentLang].years;
+        document.getElementById("roiDisplay").innerText = solarRoiString + " " + translations[currentLang].years;
+        document.getElementById("contributionRoiSimpleDisplay").innerText = contributionRoiString + " " + translations[currentLang].years;
     }
 
     function calcAdvanced() {
         let excessInput = document.getElementById("excess").value;
+        let pInput = document.getElementById("panels-advanced").value;
+
         let excess = excessInput ? parseInt(excessInput) : 0;
+        let p = pInput ? parseInt(pInput) : 0;
+
+        const EFFICIENCY_FACTOR = 1.0;
+        const FIXED_SAVINGS = 200;
 
         document.getElementById("storedDisplay").innerText = excess + " kWh " + translations[currentLang].storedText;
 
-        let bonusValue = excess * 0.12;
-        let baseSavings = 200;
-        let totalSavings = baseSavings + bonusValue;
+        // Solar Bonus = Excess * Price per kWh * 100% Efficiency
+        let bonusValue = excess * 0.12 * EFFICIENCY_FACTOR;
+        let totalSavings = FIXED_SAVINGS + bonusValue;
+
+        // Calculate ROIs
+        let solarRoi = calculateSolarRoi(p);
+        let contributionRoi = calculateContributionRoi(totalSavings);
+
+        let solarRoiString = solarRoi.toFixed(1);
+        let contributionRoiString = contributionRoi.toFixed(1);
+
+        if(currentLang === 'nl') {
+            solarRoiString = solarRoiString.replace('.', ',');
+            contributionRoiString = contributionRoiString.replace('.', ',');
+        }
 
         document.getElementById("bonusDisplay").innerText = "\u20AC " + Math.round(bonusValue);
         document.getElementById("totalSaveDisplay").innerText = "\u20AC " + Math.round(totalSavings);
+        document.getElementById("roiAdvancedDisplay").innerText = solarRoiString + " " + translations[currentLang].years;
+        document.getElementById("contributionRoiAdvancedDisplay").innerText = contributionRoiString + " " + translations[currentLang].years;
     }
 
     function calcPro() {
         // Inputs
+        let panelsInput = document.getElementById("pro-panels").value;
         let billInput = document.getElementById("pro-bill").value;
         let excessInput = document.getElementById("pro-excess").value;
 
+        let panels = panelsInput ? parseInt(panelsInput) : 0;
         let bill = billInput ? parseInt(billInput) : 0;
         let excess = excessInput ? parseInt(excessInput) : 0;
 
-        // Logic Breakdown
-        let fixedSavings = 200; // Base maintenance saving
-        let efficiencyGain = (bill * 12) * 0.08; // 8% of annual bill
-        let solarBonus = excess * 0.12; // Surplus value
+        // --- FINANCIAL LOGIC ---
+        const EFFICIENCY_FACTOR = 1.0;
+
+        let fixedSavings = 200;
+        let efficiencyGain = (bill * 12) * 0.08;
+        let solarBonus = excess * 0.12 * EFFICIENCY_FACTOR;
 
         let totalBenefit = fixedSavings + efficiencyGain + solarBonus;
 
-        // Update UI
+        // --- ROI CALCULATIONS ---
+
+        let solarRoi = calculateSolarRoi(panels);
+        let contributionRoi = calculateContributionRoi(totalBenefit);
+
+        // --- END LOGIC ---
+
+        // Update UI Breakdown
         document.getElementById("val-fixed").innerText = "+ \u20AC " + fixedSavings;
         document.getElementById("val-eff").innerText = "+ \u20AC " + Math.round(efficiencyGain);
         document.getElementById("val-solar").innerText = "+ \u20AC " + Math.round(solarBonus);
         document.getElementById("proTotalDisplay").innerText = "\u20AC " + Math.round(totalBenefit);
+
+        // Format ROI
+        let solarRoiString = solarRoi.toFixed(1);
+        let contributionRoiString = contributionRoi.toFixed(1);
+
+        if(currentLang === 'nl') {
+            solarRoiString = solarRoiString.replace('.', ',');
+            contributionRoiString = contributionRoiString.replace('.', ',');
+        }
+
+        document.getElementById("proRoiDisplay").innerText = solarRoiString + " " + translations[currentLang].years;
+        document.getElementById("contributionRoiProDisplay").innerText = contributionRoiString + " " + translations[currentLang].years;
     }
 
     // Initialize
