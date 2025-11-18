@@ -1,0 +1,18 @@
+# IDE files
+.idea/
+.vscode/
+
+# Reference files (not for deployment)
+landing_page.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any)
+node_modules/
+
+# Build files
+dist/
+build/
+

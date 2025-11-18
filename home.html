@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solar Saver - Home</title>
+    <style>
+        /* Base Styles matching calculator theme */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #130f0a;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav .logo {
+            color: #ff9800;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff9800;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, rgba(19,15,10,0.7), rgba(130,113,83,0.7)),
+                        url('images/hero-image.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ff9800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        /* Button Styles */
+        .btn {
+            background-color: #ff9800;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn:hover {
+            background-color: #f57c00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #ff9800;
+            margin-left: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 152, 0, 0.1);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        /* Section Styles */
+        section {
+            margin-bottom: 50px;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            color: #827153;
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: #ff9800;
+            border-radius: 2px;
+        }
+
+        /* Mission Section */
+        .mission-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .mission-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .benefit-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            color: #827153;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .benefit-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 25px;
+        }
+
+        .step {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            background: #ff9800;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        }
+
+        .step h3 {
+            color: #827153;
+            margin-bottom: 1rem;
+            margin-top: 10px;
+            font-size: 1.3rem;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #827153, #655031);
+            color: white;
+            padding: 50px 20px;
+            text-align: center;
+            border-radius: 16px;
+            margin: 50px auto;
+            max-width: 1200px;
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section h2::after {
+            background-color: white;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #130f0a;
+            color: white;
+            padding: 50px 20px 20px;
+        }
+
+        footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        footer h3 {
+            color: #ff9800;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #ff9800;
+        }
+
+        footer .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        footer .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff9800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        footer .social-icon:hover {
+            background: #f57c00;
+        }
+
+        footer .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .subtitle { font-size: 1.2rem; }
+            nav ul { gap: 1rem; font-size: 0.9rem; }
+            section h2 { font-size: 2rem; }
+            .btn-secondary { margin-left: 0; margin-top: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="home.html" class="logo">Solar Saver</a>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>SolarVault</h1>
+        <p class="subtitle">Use more of your own solar power, cut battery costs, and boost your returns.</p>
+        <p>Transform your solar energy into valuable heat storage. Join the energy revolution and maximize your investment while contributing to a sustainable future.</p>
+        <div>
+            <a href="calculator.html" class="btn">Try Calculator</a>
+            <a href="#register" class="btn btn-secondary">Register Interest</a>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <div class="container">
+        <section id="mission">
+            <h2>Our Mission</h2>
+            <div class="mission-content">
+                <p>Many people with solar panels generate extra green energy, but cannot use it all themselves and face limitations like a congested electricity grid, which leads to the customer paying when giving back.</p>
+                <p>Our product solves this by letting you store heat and use all your self-generated solar power, boosting your return on investment and lowering battery costs.</p>
+            </div>
+        </section>
+
+        <!-- Benefits Section -->
+        <section id="benefits">
+            <h2>Why Our Product?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="icon">💰</div>
+                    <h3>Reduce Energy Costs</h3>
+                    <p>Significantly lower your monthly energy bills by maximizing your solar panel efficiency.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">☀️</div>
+                    <h3>Maximize Solar Usage</h3>
+                    <p>Use 100% of your solar panel output instead of selling it back at unfavorable rates.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">🔥</div>
+                    <h3>High-Temperature Storage</h3>
+                    <p>Store heat up to 600°C with our innovative sand battery technology.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">⚡</div>
+                    <h3>High Efficiency</h3>
+                    <p>Achieve 80% efficiency compared to traditional 60% battery systems.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="icon">🌍</div>
+                    <h3>Sustainable Future</h3>
+                    <p>Contribute to the energy transition and help build a greener tomorrow.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="process">
+            <h2>How Does Registration Work?</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Registration</h3>
+                    <p>Register below by providing your contact details and basic information about your solar setup.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Meeting</h3>
+                    <p>After registration, we'll contact you to schedule a meeting. Both online and in-person options are available.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Quote</h3>
+                    <p>With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Installation</h3>
+                    <p>Once you agree with the quote and plan, we'll schedule the installation at your convenience.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prototype Video Section -->
+        <section id="prototype">
+            <h2>See Our Prototype in Action</h2>
+            <div style="max-width: 800px; margin: 25px auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <video controls style="width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                    <source src="prototype video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p style="margin-top: 15px; color: #666; text-align: center; font-size: 1.1rem;">
+                    Watch our working prototype demonstrate how sand battery technology stores and releases thermal energy efficiently.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="register">
+        <h2>Ready to Dive In With Us?</h2>
+        <p>Be among the first to experience the future of energy storage.</p>
+        <a href="calculator.html" class="btn">Calculate Your Savings</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Solar Saver</h3>
+                <p>Transforming solar energy into sustainable heat storage solutions.</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/solarsaver11" target="_blank" class="social-icon">📷</a>
+                    <a href="mailto:s.a.ali-2@student.tudelft.nl" class="social-icon">✉️</a>
+                </div>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="team.html">Our Team</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="calculator.html">Calculator</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p>Email: s.a.ali-2@student.tudelft.nl</p>
+                <p>For more information, feel free to reach out!</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Solar Saver. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solar Saver - FAQ</title>
+    <style>
+        /* Base Styles */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #130f0a;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav .logo {
+            color: #ff9800;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff9800;
+        }
+
+        /* Hero Section */
+        .hero-small {
+            background: linear-gradient(135deg, rgba(19,15,10,0.9), rgba(130,113,83,0.9));
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-small h1 {
+            font-size: 3rem;
+            color: #ff9800;
+        }
+
+        .hero-small p {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #827153;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: #f9f9f9;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: #ff9800;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+            padding: 0 30px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 30px 25px 30px;
+        }
+
+        /* Contact Box */
+        .contact-box {
+            background: linear-gradient(135deg, #ff9800, #827153);
+            color: white;
+            padding: 40px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .contact-box h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-box p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-box a {
+            color: white;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .contact-box a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #130f0a;
+            color: white;
+            padding: 60px 20px 20px;
+            margin-top: 80px;
+        }
+
+        footer .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        footer h3 {
+            color: #ff9800;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #ff9800;
+        }
+
+        footer .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        footer .social-icon {
+            width: 40px;
+            height: 40px;
+            background: #ff9800;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        footer .social-icon:hover {
+            background: #f57c00;
+        }
+
+        footer .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-small h1 { font-size: 2rem; }
+            nav ul { gap: 1rem; font-size: 0.9rem; }
+            .faq-question { font-size: 1rem; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="home.html" class="logo">Solar Saver</a>
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="calculator.html">Calculator</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-small">
+        <h1>Frequently Asked Questions</h1>
+        <p>Find answers to common questions about Solar Saver</p>
+    </section>
+
+    <!-- FAQ Section -->
+    <div class="container">
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>What is Solar Saver?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Solar Saver is an innovative sand battery system that allows you to store excess solar energy as heat. This means you can maximize the usage of your solar panels and significantly reduce your energy costs by using your own generated power instead of selling it back to the grid at unfavorable rates.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>How does the sand battery work?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Our sand battery uses excess electricity from your solar panels to heat sand to very high temperatures (up to 600°C). This stored thermal energy can then be converted back to usable heat for your home when needed, achieving up to 80% efficiency - significantly higher than traditional battery systems.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>How much can I save with Solar Saver?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Savings vary based on your solar panel setup and energy usage. On average, customers save €400-700 annually through reduced maintenance costs, increased solar efficiency, and heat credits. Use our calculator to get a personalized estimate based on your specific situation.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>What is the payback period?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>The payback period depends on multiple factors including the number of solar panels you have and your energy consumption. Typically, solar panel investment can be earned back in 4-5 years (reduced from the standard 7.5 years), and the connection fee ROI is approximately 9-10 years.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>Do I need solar panels to use Solar Saver?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, Solar Saver is designed to work with existing solar panel systems. It converts your excess solar electricity into stored thermal energy, maximizing the value of your solar investment.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>How long does installation take?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>After finalizing your quote and plan, the typical installation takes 1-2 days depending on your specific setup. We work efficiently to minimize disruption to your daily routine.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>Is the system safe?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Absolutely. Our sand battery system is designed with multiple safety features and complies with all relevant safety standards. The sand is contained in a well-insulated, secure vessel, and all heat exchange systems are professionally engineered.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>What maintenance is required?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Solar Saver requires minimal maintenance compared to traditional heating systems. We recommend an annual inspection to ensure optimal performance, and our system is designed to operate reliably with minimal intervention.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>Can I still use my current heating system?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, Solar Saver can work alongside your existing heating system. It's designed to supplement your heating needs, reducing your reliance on gas or electric heating and lowering your overall energy costs.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>What happens on cloudy days or in winter?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>The sand battery stores heat for extended periods, allowing you to use stored energy even when solar production is low. During prolonged periods of low solar generation, your backup heating system will supplement as needed.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>How does this help the environment?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>By maximizing the use of your self-generated solar power and reducing reliance on fossil fuels for heating, you're significantly reducing your carbon footprint. Plus, you're helping to ease grid congestion by using your excess solar energy locally rather than feeding it back to an already congested grid.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <button class="faq-question" onclick="toggleFaq(this)">
+                <span>Is there a warranty?</span>
+                <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Yes, our systems come with a comprehensive warranty covering both parts and labor. Specific warranty terms will be discussed during your consultation and included in your quote.</p>
+            </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="contact-box">
+            <h2>Still Have Questions?</h2>
+            <p>We're here to help! Feel free to reach out to us for more information.</p>
+            <a href="mailto:s.a.ali-2@student.tudelft.nl">Contact Us</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3>Solar Saver</h3>
+                <p>Transforming solar energy into sustainable heat storage solutions.</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/solarsaver11" target="_blank" class="social-icon">📷</a>
+                    <a href="mailto:s.a.ali-2@student.tudelft.nl" class="social-icon">✉️</a>
+                </div>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="team.html">Our Team</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="calculator.html">Calculator</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Legal</h3>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p>Email: s.a.ali-2@student.tudelft.nl</p>
+                <p>For more information, feel free to reach out!</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Solar Saver. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFaq(button) {
+            const faqItem = button.parentElement;
+            const isActive = faqItem.classList.contains('active');
+
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Open clicked item if it wasn't already open
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
