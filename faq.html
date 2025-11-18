@@ -47,6 +47,24 @@
             gap: 2rem;
         }
 
+        /* Language Toggle */
+        .lang-btn {
+            background: #ff9800;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            transition: background 0.3s;
+            margin-left: 1rem;
+        }
+
+        .lang-btn:hover {
+            background: #f57c00;
+        }
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -256,147 +274,148 @@
         <div class="container">
             <a href="home.html" class="logo">Solar Saver</a>
             <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="team.html">Team</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="home.html" id="nav-home">Home</a></li>
+                <li><a href="team.html" id="nav-team">Team</a></li>
+                <li><a href="faq.html" id="nav-faq">FAQ</a></li>
+                <li><a href="calculator.html" id="nav-calculator">Calculator</a></li>
             </ul>
+            <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero-small">
-        <h1>Frequently Asked Questions</h1>
-        <p>Find answers to common questions about Solar Saver</p>
+        <h1 id="hero-title">Frequently Asked Questions</h1>
+        <p id="hero-subtitle">Find answers to common questions about Solar Saver</p>
     </section>
 
     <!-- FAQ Section -->
     <div class="container">
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>What is Solar Saver?</span>
+                <span id="faq1-q">What is Solar Saver?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Solar Saver is an innovative sand battery system that allows you to store excess solar energy as heat. This means you can maximize the usage of your solar panels and significantly reduce your energy costs by using your own generated power instead of selling it back to the grid at unfavorable rates.</p>
+                <p id="faq1-a">Solar Saver is an innovative sand battery system that allows you to store excess solar energy as heat. This means you can maximize the usage of your solar panels and significantly reduce your energy costs by using your own generated power instead of selling it back to the grid at unfavorable rates.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>How does the sand battery work?</span>
+                <span id="faq2-q">How does the sand battery work?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Our sand battery uses excess electricity from your solar panels to heat sand to very high temperatures (up to 600°C). This stored thermal energy can then be converted back to usable heat for your home when needed, achieving up to 80% efficiency - significantly higher than traditional battery systems.</p>
+                <p id="faq2-a">Our sand battery uses excess electricity from your solar panels to heat sand to very high temperatures (up to 600°C). This stored thermal energy can then be converted back to usable heat for your home when needed, achieving up to 80% efficiency - significantly higher than traditional battery systems.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>How much can I save with Solar Saver?</span>
+                <span id="faq3-q">How much can I save with Solar Saver?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Savings vary based on your solar panel setup and energy usage. On average, customers save €400-700 annually through reduced maintenance costs, increased solar efficiency, and heat credits. Use our calculator to get a personalized estimate based on your specific situation.</p>
+                <p id="faq3-a">Savings vary based on your solar panel setup and energy usage. On average, customers save €400-700 annually through reduced maintenance costs, increased solar efficiency, and heat credits. Use our calculator to get a personalized estimate based on your specific situation.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>What is the payback period?</span>
+                <span id="faq4-q">What is the payback period?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>The payback period depends on multiple factors including the number of solar panels you have and your energy consumption. Typically, solar panel investment can be earned back in 4-5 years (reduced from the standard 7.5 years), and the connection fee ROI is approximately 9-10 years.</p>
+                <p id="faq4-a">The payback period depends on multiple factors including the number of solar panels you have and your energy consumption. Typically, solar panel investment can be earned back in 4-5 years (reduced from the standard 7.5 years), and the connection fee ROI is approximately 9-10 years.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>Do I need solar panels to use Solar Saver?</span>
+                <span id="faq5-q">Do I need solar panels to use Solar Saver?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Yes, Solar Saver is designed to work with existing solar panel systems. It converts your excess solar electricity into stored thermal energy, maximizing the value of your solar investment.</p>
+                <p id="faq5-a">Yes, Solar Saver is designed to work with existing solar panel systems. It converts your excess solar electricity into stored thermal energy, maximizing the value of your solar investment.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>How long does installation take?</span>
+                <span id="faq6-q">How long does installation take?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>After finalizing your quote and plan, the typical installation takes 1-2 days depending on your specific setup. We work efficiently to minimize disruption to your daily routine.</p>
+                <p id="faq6-a">After finalizing your quote and plan, the typical installation takes 1-2 days depending on your specific setup. We work efficiently to minimize disruption to your daily routine.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>Is the system safe?</span>
+                <span id="faq7-q">Is the system safe?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Absolutely. Our sand battery system is designed with multiple safety features and complies with all relevant safety standards. The sand is contained in a well-insulated, secure vessel, and all heat exchange systems are professionally engineered.</p>
+                <p id="faq7-a">Absolutely. Our sand battery system is designed with multiple safety features and complies with all relevant safety standards. The sand is contained in a well-insulated, secure vessel, and all heat exchange systems are professionally engineered.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>What maintenance is required?</span>
+                <span id="faq8-q">What maintenance is required?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Solar Saver requires minimal maintenance compared to traditional heating systems. We recommend an annual inspection to ensure optimal performance, and our system is designed to operate reliably with minimal intervention.</p>
+                <p id="faq8-a">Solar Saver requires minimal maintenance compared to traditional heating systems. We recommend an annual inspection to ensure optimal performance, and our system is designed to operate reliably with minimal intervention.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>Can I still use my current heating system?</span>
+                <span id="faq9-q">Can I still use my current heating system?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Yes, Solar Saver can work alongside your existing heating system. It's designed to supplement your heating needs, reducing your reliance on gas or electric heating and lowering your overall energy costs.</p>
+                <p id="faq9-a">Yes, Solar Saver can work alongside your existing heating system. It's designed to supplement your heating needs, reducing your reliance on gas or electric heating and lowering your overall energy costs.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>What happens on cloudy days or in winter?</span>
+                <span id="faq10-q">What happens on cloudy days or in winter?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>The sand battery stores heat for extended periods, allowing you to use stored energy even when solar production is low. During prolonged periods of low solar generation, your backup heating system will supplement as needed.</p>
+                <p id="faq10-a">The sand battery stores heat for extended periods, allowing you to use stored energy even when solar production is low. During prolonged periods of low solar generation, your backup heating system will supplement as needed.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>How does this help the environment?</span>
+                <span id="faq11-q">How does this help the environment?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>By maximizing the use of your self-generated solar power and reducing reliance on fossil fuels for heating, you're significantly reducing your carbon footprint. Plus, you're helping to ease grid congestion by using your excess solar energy locally rather than feeding it back to an already congested grid.</p>
+                <p id="faq11-a">By maximizing the use of your self-generated solar power and reducing reliance on fossil fuels for heating, you're significantly reducing your carbon footprint. Plus, you're helping to ease grid congestion by using your excess solar energy locally rather than feeding it back to an already congested grid.</p>
             </div>
         </div>
 
         <div class="faq-item">
             <button class="faq-question" onclick="toggleFaq(this)">
-                <span>Is there a warranty?</span>
+                <span id="faq12-q">Is there a warranty?</span>
                 <span class="faq-icon">+</span>
             </button>
             <div class="faq-answer">
-                <p>Yes, our systems come with a comprehensive warranty covering both parts and labor. Specific warranty terms will be discussed during your consultation and included in your quote.</p>
+                <p id="faq12-a">Yes, our systems come with a comprehensive warranty covering both parts and labor. Specific warranty terms will be discussed during your consultation and included in your quote.</p>
             </div>
         </div>
 
         <!-- Contact Box -->
         <div class="contact-box">
-            <h2>Still Have Questions?</h2>
-            <p>We're here to help! Feel free to reach out to us for more information.</p>
-            <a href="mailto:s.a.ali-2@student.tudelft.nl">Contact Us</a>
+            <h2 id="contact-title">Still Have Questions?</h2>
+            <p id="contact-text">We're here to help! Feel free to reach out to us for more information.</p>
+            <a href="mailto:s.a.ali-2@student.tudelft.nl" id="contact-btn">Contact Us</a>
         </div>
     </div>
 
@@ -404,37 +423,37 @@
     <footer>
         <div class="footer-content">
             <div>
-                <h3>Solar Saver</h3>
-                <p>Transforming solar energy into sustainable heat storage solutions.</p>
+                <h3 id="footer-about">Solar Saver</h3>
+                <p id="footer-about-text">Transforming solar energy into sustainable heat storage solutions.</p>
                 <div class="social-links">
                     <a href="https://www.instagram.com/solarsaver11" target="_blank" class="social-icon">📷</a>
                     <a href="mailto:s.a.ali-2@student.tudelft.nl" class="social-icon">✉️</a>
                 </div>
             </div>
             <div>
-                <h3>Quick Links</h3>
+                <h3 id="footer-links">Quick Links</h3>
                 <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="team.html">Our Team</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="calculator.html">Calculator</a></li>
+                    <li><a href="home.html" id="footer-link-home">Home</a></li>
+                    <li><a href="team.html" id="footer-link-team">Our Team</a></li>
+                    <li><a href="faq.html" id="footer-link-faq">FAQ</a></li>
+                    <li><a href="calculator.html" id="footer-link-calc">Calculator</a></li>
                 </ul>
             </div>
             <div>
-                <h3>Legal</h3>
+                <h3 id="footer-legal">Legal</h3>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#" id="footer-privacy">Privacy Policy</a></li>
+                    <li><a href="#" id="footer-terms">Terms & Conditions</a></li>
                 </ul>
             </div>
             <div>
-                <h3>Contact</h3>
+                <h3 id="footer-contact">Contact</h3>
                 <p>Email: s.a.ali-2@student.tudelft.nl</p>
-                <p>For more information, feel free to reach out!</p>
+                <p id="footer-contact-text">For more information, feel free to reach out!</p>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 Solar Saver. All rights reserved.</p>
+            <p id="copyright">&copy; 2024 Solar Saver. All rights reserved.</p>
         </div>
     </footer>
 
@@ -452,6 +471,161 @@
             if (!isActive) {
                 faqItem.classList.add('active');
             }
+        }
+
+        // Translation data
+        const translations = {
+            en: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "Frequently Asked Questions",
+                heroSubtitle: "Find answers to common questions about Solar Saver",
+                faq1Q: "What is Solar Saver?",
+                faq1A: "Solar Saver is an innovative sand battery system that allows you to store excess solar energy as heat. This means you can maximize the usage of your solar panels and significantly reduce your energy costs by using your own generated power instead of selling it back to the grid at unfavorable rates.",
+                faq2Q: "How does the sand battery work?",
+                faq2A: "Our sand battery uses excess electricity from your solar panels to heat sand to very high temperatures (up to 600°C). This stored thermal energy can then be converted back to usable heat for your home when needed, achieving up to 80% efficiency - significantly higher than traditional battery systems.",
+                faq3Q: "How much can I save with Solar Saver?",
+                faq3A: "Savings vary based on your solar panel setup and energy usage. On average, customers save €400-700 annually through reduced maintenance costs, increased solar efficiency, and heat credits. Use our calculator to get a personalized estimate based on your specific situation.",
+                faq4Q: "What is the payback period?",
+                faq4A: "The payback period depends on multiple factors including the number of solar panels you have and your energy consumption. Typically, solar panel investment can be earned back in 4-5 years (reduced from the standard 7.5 years), and the connection fee ROI is approximately 9-10 years.",
+                faq5Q: "Do I need solar panels to use Solar Saver?",
+                faq5A: "Yes, Solar Saver is designed to work with existing solar panel systems. It converts your excess solar electricity into stored thermal energy, maximizing the value of your solar investment.",
+                faq6Q: "How long does installation take?",
+                faq6A: "After finalizing your quote and plan, the typical installation takes 1-2 days depending on your specific setup. We work efficiently to minimize disruption to your daily routine.",
+                faq7Q: "Is the system safe?",
+                faq7A: "Absolutely. Our sand battery system is designed with multiple safety features and complies with all relevant safety standards. The sand is contained in a well-insulated, secure vessel, and all heat exchange systems are professionally engineered.",
+                faq8Q: "What maintenance is required?",
+                faq8A: "Solar Saver requires minimal maintenance compared to traditional heating systems. We recommend an annual inspection to ensure optimal performance, and our system is designed to operate reliably with minimal intervention.",
+                faq9Q: "Can I still use my current heating system?",
+                faq9A: "Yes, Solar Saver can work alongside your existing heating system. It's designed to supplement your heating needs, reducing your reliance on gas or electric heating and lowering your overall energy costs.",
+                faq10Q: "What happens on cloudy days or in winter?",
+                faq10A: "The sand battery stores heat for extended periods, allowing you to use stored energy even when solar production is low. During prolonged periods of low solar generation, your backup heating system will supplement as needed.",
+                faq11Q: "How does this help the environment?",
+                faq11A: "By maximizing the use of your self-generated solar power and reducing reliance on fossil fuels for heating, you're significantly reducing your carbon footprint. Plus, you're helping to ease grid congestion by using your excess solar energy locally rather than feeding it back to an already congested grid.",
+                faq12Q: "Is there a warranty?",
+                faq12A: "Yes, our systems come with a comprehensive warranty covering both parts and labor. Specific warranty terms will be discussed during your consultation and included in your quote.",
+                contactTitle: "Still Have Questions?",
+                contactText: "We're here to help! Feel free to reach out to us for more information.",
+                contactBtn: "Contact Us",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Transforming solar energy into sustainable heat storage solutions.",
+                footerLinks: "Quick Links",
+                footerLinkHome: "Home",
+                footerLinkTeam: "Our Team",
+                footerLinkFaq: "FAQ",
+                footerLinkCalc: "Calculator",
+                footerLegal: "Legal",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms & Conditions",
+                footerContact: "Contact",
+                footerContactText: "For more information, feel free to reach out!",
+                copyright: "© 2024 Solar Saver. All rights reserved."
+            },
+            nl: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "Veelgestelde Vragen",
+                heroSubtitle: "Vind antwoorden op veelgestelde vragen over Solar Saver",
+                faq1Q: "Wat is Solar Saver?",
+                faq1A: "Solar Saver is een innovatief zandbatterij systeem waarmee u overtollige zonne-energie kunt opslaan als warmte. Dit betekent dat u het gebruik van uw zonnepanelen kunt maximaliseren en uw energiekosten aanzienlijk kunt verlagen door uw eigen opgewekte stroom te gebruiken in plaats van deze tegen ongunstige tarieven terug te verkopen aan het net.",
+                faq2Q: "Hoe werkt de zandbatterij?",
+                faq2A: "Onze zandbatterij gebruikt overtollige elektriciteit van uw zonnepanelen om zand tot zeer hoge temperaturen (tot 600°C) te verwarmen. Deze opgeslagen thermische energie kan vervolgens worden omgezet in bruikbare warmte voor uw huis wanneer dat nodig is, met een efficiëntie van maximaal 80% - aanzienlijk hoger dan traditionele batterijsystemen.",
+                faq3Q: "Hoeveel kan ik besparen met Solar Saver?",
+                faq3A: "Besparingen variëren afhankelijk van uw zonnepaneel opstelling en energieverbruik. Gemiddeld besparen klanten €400-700 per jaar door verminderde onderhoudskosten, verhoogde zonne-efficiëntie en warmtekrediet. Gebruik onze calculator voor een gepersonaliseerde schatting op basis van uw specifieke situatie.",
+                faq4Q: "Wat is de terugverdientijd?",
+                faq4A: "De terugverdientijd hangt af van meerdere factoren, waaronder het aantal zonnepanelen dat u heeft en uw energieverbruik. Doorgaans kan de investering in zonnepanelen in 4-5 jaar worden terugverdiend (verlaagd van de standaard 7,5 jaar), en de aansluitkosten ROI is ongeveer 9-10 jaar.",
+                faq5Q: "Heb ik zonnepanelen nodig om Solar Saver te gebruiken?",
+                faq5A: "Ja, Solar Saver is ontworpen om te werken met bestaande zonnepaneel systemen. Het zet uw overtollige zonne-elektriciteit om in opgeslagen thermische energie, waardoor de waarde van uw zonne-investering wordt gemaximaliseerd.",
+                faq6Q: "Hoe lang duurt de installatie?",
+                faq6A: "Na het afronden van uw offerte en plan duurt de typische installatie 1-2 dagen, afhankelijk van uw specifieke opstelling. We werken efficiënt om verstoring van uw dagelijkse routine te minimaliseren.",
+                faq7Q: "Is het systeem veilig?",
+                faq7A: "Absoluut. Ons zandbatterij systeem is ontworpen met meerdere veiligheidsfuncties en voldoet aan alle relevante veiligheidsnormen. Het zand zit in een goed geïsoleerd, veilig vat en alle warmtewisselingssystemen zijn professioneel ontworpen.",
+                faq8Q: "Welk onderhoud is vereist?",
+                faq8A: "Solar Saver vereist minimaal onderhoud in vergelijking met traditionele verwarmingssystemen. We raden een jaarlijkse inspectie aan om optimale prestaties te garanderen, en ons systeem is ontworpen om betrouwbaar te werken met minimale interventie.",
+                faq9Q: "Kan ik mijn huidige verwarmingssysteem nog gebruiken?",
+                faq9A: "Ja, Solar Saver kan naast uw bestaande verwarmingssysteem werken. Het is ontworpen om uw verwarmingsbehoeften aan te vullen, waardoor uw afhankelijkheid van gas of elektrische verwarming wordt verminderd en uw totale energiekosten worden verlaagd.",
+                faq10Q: "Wat gebeurt er op bewolkte dagen of in de winter?",
+                faq10A: "De zandbatterij slaat warmte op voor langere perioden, zodat u opgeslagen energie kunt gebruiken, zelfs wanneer de zonneproductie laag is. Tijdens langdurige perioden van lage zonne-opwekking zal uw back-up verwarmingssysteem indien nodig bijspringen.",
+                faq11Q: "Hoe helpt dit het milieu?",
+                faq11A: "Door het gebruik van uw zelfopgewekte zonne-energie te maximaliseren en de afhankelijkheid van fossiele brandstoffen voor verwarming te verminderen, verkleint u uw koolstofvoetafdruk aanzienlijk. Bovendien helpt u netcongestie te verminderen door uw overtollige zonne-energie lokaal te gebruiken in plaats van deze terug te leveren aan een reeds overbelast net.",
+                faq12Q: "Is er een garantie?",
+                faq12A: "Ja, onze systemen worden geleverd met een uitgebreide garantie die zowel onderdelen als arbeid dekt. Specifieke garantievoorwaarden worden besproken tijdens uw consultatie en opgenomen in uw offerte.",
+                contactTitle: "Nog Vragen?",
+                contactText: "We zijn er om te helpen! Neem gerust contact met ons op voor meer informatie.",
+                contactBtn: "Neem Contact Op",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Zonne-energie transformeren in duurzame warmteopslag oplossingen.",
+                footerLinks: "Snelle Links",
+                footerLinkHome: "Home",
+                footerLinkTeam: "Ons Team",
+                footerLinkFaq: "FAQ",
+                footerLinkCalc: "Calculator",
+                footerLegal: "Juridisch",
+                footerPrivacy: "Privacybeleid",
+                footerTerms: "Algemene Voorwaarden",
+                footerContact: "Contact",
+                footerContactText: "Voor meer informatie kun je gerust contact opnemen!",
+                copyright: "© 2024 Solar Saver. Alle rechten voorbehouden."
+            }
+        };
+
+        // Get saved language or default to English
+        let currentLang = localStorage.getItem('solarSaverLang') || 'en';
+
+        // Apply saved language on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+        });
+
+        function applyTranslations() {
+            const t = translations[currentLang];
+
+            // Navigation
+            document.getElementById("nav-home").textContent = t.navHome;
+            document.getElementById("nav-team").textContent = t.navTeam;
+            document.getElementById("nav-faq").textContent = t.navFaq;
+            document.getElementById("nav-calculator").textContent = t.navCalculator;
+
+            // Hero
+            document.getElementById("hero-title").textContent = t.heroTitle;
+            document.getElementById("hero-subtitle").textContent = t.heroSubtitle;
+
+            // FAQ Items
+            for (let i = 1; i <= 12; i++) {
+                document.getElementById(`faq${i}-q`).textContent = t[`faq${i}Q`];
+                document.getElementById(`faq${i}-a`).textContent = t[`faq${i}A`];
+            }
+
+            // Contact Box
+            document.getElementById("contact-title").textContent = t.contactTitle;
+            document.getElementById("contact-text").textContent = t.contactText;
+            document.getElementById("contact-btn").textContent = t.contactBtn;
+
+            // Footer
+            document.getElementById("footer-about").textContent = t.footerAbout;
+            document.getElementById("footer-about-text").textContent = t.footerAboutText;
+            document.getElementById("footer-links").textContent = t.footerLinks;
+            document.getElementById("footer-link-home").textContent = t.footerLinkHome;
+            document.getElementById("footer-link-team").textContent = t.footerLinkTeam;
+            document.getElementById("footer-link-faq").textContent = t.footerLinkFaq;
+            document.getElementById("footer-link-calc").textContent = t.footerLinkCalc;
+            document.getElementById("footer-legal").textContent = t.footerLegal;
+            document.getElementById("footer-privacy").textContent = t.footerPrivacy;
+            document.getElementById("footer-terms").textContent = t.footerTerms;
+            document.getElementById("footer-contact").textContent = t.footerContact;
+            document.getElementById("footer-contact-text").textContent = t.footerContactText;
+            document.getElementById("copyright").textContent = t.copyright;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'nl' : 'en';
+            // Save language preference
+            localStorage.setItem('solarSaverLang', currentLang);
+            applyTranslations();
         }
     </script>
 </body>

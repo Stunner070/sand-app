@@ -47,6 +47,24 @@
             gap: 2rem;
         }
 
+        /* Language Toggle */
+        .lang-btn {
+            background: #ff9800;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            transition: background 0.3s;
+            margin-left: 1rem;
+        }
+
+        .lang-btn:hover {
+            background: #f57c00;
+        }
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -300,76 +318,77 @@
         <div class="container">
             <a href="home.html" class="logo">Solar Saver</a>
             <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="team.html">Team</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="home.html" id="nav-home">Home</a></li>
+                <li><a href="team.html" id="nav-team">Team</a></li>
+                <li><a href="faq.html" id="nav-faq">FAQ</a></li>
+                <li><a href="calculator.html" id="nav-calculator">Calculator</a></li>
             </ul>
+            <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero-small">
-        <h1>Meet Our Team</h1>
-        <p>Passionate innovators dedicated to revolutionizing energy storage</p>
+        <h1 id="hero-title">Meet Our Team</h1>
+        <p id="hero-subtitle">Passionate innovators dedicated to revolutionizing energy storage</p>
     </section>
 
     <!-- Team Section -->
     <div class="container">
-        <h2 class="section-title">Meet Our Team</h2>
+        <h2 class="section-title" id="team-section-title">Meet Our Team</h2>
 
         <!-- Team Photo -->
         <div style="max-width: 900px; margin: 30px auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
             <img src="images/team.png" alt="Solar Saver Team" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-            <p style="margin-top: 15px; color: #666; text-align: center; font-size: 1.1rem; font-style: italic;">
+            <p style="margin-top: 15px; color: #666; text-align: center; font-size: 1.1rem; font-style: italic;" id="team-photo-caption">
                 Our passionate team working together to revolutionize solar energy storage
             </p>
         </div>
 
         <!-- Team Background -->
         <div style="max-width: 900px; margin: 40px auto; background: white; padding: 35px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-            <h2 class="section-title">Our Backgrounds</h2>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem;">
+            <h2 class="section-title" id="backgrounds-title">Our Backgrounds</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem;" id="background-intro">
                 We are a group of 5 students with diverse backgrounds. We all follow the minor Tech-Based Entrepreneurship at TU Delft in The Netherlands. We met each other during this minor and decided to work together.
             </p>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 0.5rem;">
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555; margin-bottom: 0.5rem;" id="backgrounds-label">
                 <strong>Our backgrounds are:</strong>
             </p>
-            <ul style="font-size: 1.1rem; line-height: 2; color: #555; margin-left: 40px; margin-bottom: 1.5rem;">
+            <ul style="font-size: 1.1rem; line-height: 2; color: #555; margin-left: 40px; margin-bottom: 1.5rem;" id="backgrounds-list">
                 <li><strong>Computer Science</strong> (Sofyan)</li>
                 <li><strong>Mechanical Engineering</strong> (Joey)</li>
                 <li><strong>Electrical Engineering</strong> (Rutger)</li>
                 <li><strong>Business Administration</strong> (Bouwe)</li>
                 <li><strong>Maritime Engineering</strong> (Jan)</li>
             </ul>
-            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;">
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #555;" id="journey-text">
                 Our journey began when we recognized that many homeowners with solar panels faced a critical problem: they generate excess green energy but cannot use it all themselves. Grid congestion and unfavorable feed-in rates meant their investment wasn't reaching its full potential. Together, we're committed to making sustainable energy storage accessible, efficient, and economically viable for everyone.
             </p>
         </div>
 
         <!-- Values Section -->
         <div class="values-section">
-            <h2 class="section-title">Our Values</h2>
+            <h2 class="section-title" id="values-title">Our Values</h2>
             <div class="values-grid">
                 <div class="value-item">
                     <div class="value-icon">🌱</div>
-                    <h3>Sustainability</h3>
-                    <p>We're committed to creating solutions that genuinely contribute to a greener future.</p>
+                    <h3 id="value1-title">Sustainability</h3>
+                    <p id="value1-text">We're committed to creating solutions that genuinely contribute to a greener future.</p>
                 </div>
                 <div class="value-item">
                     <div class="value-icon">💡</div>
-                    <h3>Innovation</h3>
-                    <p>Constantly pushing boundaries to develop cutting-edge energy storage technology.</p>
+                    <h3 id="value2-title">Innovation</h3>
+                    <p id="value2-text">Constantly pushing boundaries to develop cutting-edge energy storage technology.</p>
                 </div>
                 <div class="value-item">
                     <div class="value-icon">🤝</div>
-                    <h3>Collaboration</h3>
-                    <p>Working together with customers and partners to achieve shared goals.</p>
+                    <h3 id="value3-title">Collaboration</h3>
+                    <p id="value3-text">Working together with customers and partners to achieve shared goals.</p>
                 </div>
                 <div class="value-item">
                     <div class="value-icon">✨</div>
-                    <h3>Excellence</h3>
-                    <p>Delivering high-quality solutions that exceed expectations.</p>
+                    <h3 id="value4-title">Excellence</h3>
+                    <p id="value4-text">Delivering high-quality solutions that exceed expectations.</p>
                 </div>
             </div>
         </div>
@@ -379,38 +398,181 @@
     <footer>
         <div class="footer-content">
             <div>
-                <h3>Solar Saver</h3>
-                <p>Transforming solar energy into sustainable heat storage solutions.</p>
+                <h3 id="footer-about">Solar Saver</h3>
+                <p id="footer-about-text">Transforming solar energy into sustainable heat storage solutions.</p>
                 <div class="social-links">
                     <a href="https://www.instagram.com/solarsaver11" target="_blank" class="social-icon">📷</a>
                     <a href="mailto:s.a.ali-2@student.tudelft.nl" class="social-icon">✉️</a>
                 </div>
             </div>
             <div>
-                <h3>Quick Links</h3>
+                <h3 id="footer-links">Quick Links</h3>
                 <ul>
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="team.html">Our Team</a></li>
-                    <li><a href="faq.html">FAQ</a></li>
-                    <li><a href="calculator.html">Calculator</a></li>
+                    <li><a href="home.html" id="footer-link-home">Home</a></li>
+                    <li><a href="team.html" id="footer-link-team">Our Team</a></li>
+                    <li><a href="faq.html" id="footer-link-faq">FAQ</a></li>
+                    <li><a href="calculator.html" id="footer-link-calc">Calculator</a></li>
                 </ul>
             </div>
             <div>
-                <h3>Legal</h3>
+                <h3 id="footer-legal">Legal</h3>
                 <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#" id="footer-privacy">Privacy Policy</a></li>
+                    <li><a href="#" id="footer-terms">Terms & Conditions</a></li>
                 </ul>
             </div>
             <div>
-                <h3>Contact</h3>
+                <h3 id="footer-contact">Contact</h3>
                 <p>Email: s.a.ali-2@student.tudelft.nl</p>
-                <p>For more information, feel free to reach out!</p>
+                <p id="footer-contact-text">For more information, feel free to reach out!</p>
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 Solar Saver. All rights reserved.</p>
+            <p id="copyright">&copy; 2024 Solar Saver. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Translation data
+        const translations = {
+            en: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "Meet Our Team",
+                heroSubtitle: "Passionate innovators dedicated to revolutionizing energy storage",
+                teamSectionTitle: "Meet Our Team",
+                teamPhotoCaption: "Our passionate team working together to revolutionize solar energy storage",
+                backgroundsTitle: "Our Backgrounds",
+                backgroundIntro: "We are a group of 5 students with diverse backgrounds. We all follow the minor Tech-Based Entrepreneurship at TU Delft in The Netherlands. We met each other during this minor and decided to work together.",
+                backgroundsLabel: "Our backgrounds are:",
+                journeyText: "Our journey began when we recognized that many homeowners with solar panels faced a critical problem: they generate excess green energy but cannot use it all themselves. Grid congestion and unfavorable feed-in rates meant their investment wasn't reaching its full potential. Together, we're committed to making sustainable energy storage accessible, efficient, and economically viable for everyone.",
+                valuesTitle: "Our Values",
+                value1Title: "Sustainability",
+                value1Text: "We're committed to creating solutions that genuinely contribute to a greener future.",
+                value2Title: "Innovation",
+                value2Text: "Constantly pushing boundaries to develop cutting-edge energy storage technology.",
+                value3Title: "Collaboration",
+                value3Text: "Working together with customers and partners to achieve shared goals.",
+                value4Title: "Excellence",
+                value4Text: "Delivering high-quality solutions that exceed expectations.",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Transforming solar energy into sustainable heat storage solutions.",
+                footerLinks: "Quick Links",
+                footerLinkHome: "Home",
+                footerLinkTeam: "Our Team",
+                footerLinkFaq: "FAQ",
+                footerLinkCalc: "Calculator",
+                footerLegal: "Legal",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms & Conditions",
+                footerContact: "Contact",
+                footerContactText: "For more information, feel free to reach out!",
+                copyright: "© 2024 Solar Saver. All rights reserved."
+            },
+            nl: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "Ontmoet Ons Team",
+                heroSubtitle: "Gepassioneerde innovators die zich inzetten voor het revolutioneren van energieopslag",
+                teamSectionTitle: "Ontmoet Ons Team",
+                teamPhotoCaption: "Ons gepassioneerde team werkt samen om zonne-energieopslag te revolutioneren",
+                backgroundsTitle: "Onze Achtergronden",
+                backgroundIntro: "We zijn een groep van 5 studenten met diverse achtergronden. We volgen allemaal de minor Tech-Based Entrepreneurship aan de TU Delft in Nederland. We hebben elkaar ontmoet tijdens deze minor en besloten samen te werken.",
+                backgroundsLabel: "Onze achtergronden zijn:",
+                journeyText: "Onze reis begon toen we erkenden dat veel huiseigenaren met zonnepanelen een kritiek probleem hadden: ze genereren overtollige groene energie maar kunnen deze niet volledig zelf gebruiken. Netcongestie en ongunstige terugleveringstarieven betekenden dat hun investering niet het volledige potentieel bereikte. Samen zijn we toegewijd om duurzame energieopslag toegankelijk, efficiënt en economisch haalbaar te maken voor iedereen.",
+                valuesTitle: "Onze Waarden",
+                value1Title: "Duurzaamheid",
+                value1Text: "We zijn toegewijd aan het creëren van oplossingen die echt bijdragen aan een groenere toekomst.",
+                value2Title: "Innovatie",
+                value2Text: "Voortdurend grenzen verleggen om geavanceerde energieopslag technologie te ontwikkelen.",
+                value3Title: "Samenwerking",
+                value3Text: "Samenwerken met klanten en partners om gedeelde doelen te bereiken.",
+                value4Title: "Excellentie",
+                value4Text: "Hoogwaardige oplossingen leveren die verwachtingen overtreffen.",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Zonne-energie transformeren in duurzame warmteopslag oplossingen.",
+                footerLinks: "Snelle Links",
+                footerLinkHome: "Home",
+                footerLinkTeam: "Ons Team",
+                footerLinkFaq: "FAQ",
+                footerLinkCalc: "Calculator",
+                footerLegal: "Juridisch",
+                footerPrivacy: "Privacybeleid",
+                footerTerms: "Algemene Voorwaarden",
+                footerContact: "Contact",
+                footerContactText: "Voor meer informatie kun je gerust contact opnemen!",
+                copyright: "© 2024 Solar Saver. Alle rechten voorbehouden."
+            }
+        };
+
+        // Get saved language or default to English
+        let currentLang = localStorage.getItem('solarSaverLang') || 'en';
+
+        // Apply saved language on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+        });
+
+        function applyTranslations() {
+            const t = translations[currentLang];
+
+            // Navigation
+            document.getElementById("nav-home").textContent = t.navHome;
+            document.getElementById("nav-team").textContent = t.navTeam;
+            document.getElementById("nav-faq").textContent = t.navFaq;
+            document.getElementById("nav-calculator").textContent = t.navCalculator;
+
+            // Hero
+            document.getElementById("hero-title").textContent = t.heroTitle;
+            document.getElementById("hero-subtitle").textContent = t.heroSubtitle;
+
+            // Team Section
+            document.getElementById("team-section-title").textContent = t.teamSectionTitle;
+            document.getElementById("team-photo-caption").textContent = t.teamPhotoCaption;
+
+            // Backgrounds
+            document.getElementById("backgrounds-title").textContent = t.backgroundsTitle;
+            document.getElementById("background-intro").textContent = t.backgroundIntro;
+            document.getElementById("backgrounds-label").innerHTML = "<strong>" + t.backgroundsLabel + "</strong>";
+            document.getElementById("journey-text").textContent = t.journeyText;
+
+            // Values
+            document.getElementById("values-title").textContent = t.valuesTitle;
+            document.getElementById("value1-title").textContent = t.value1Title;
+            document.getElementById("value1-text").textContent = t.value1Text;
+            document.getElementById("value2-title").textContent = t.value2Title;
+            document.getElementById("value2-text").textContent = t.value2Text;
+            document.getElementById("value3-title").textContent = t.value3Title;
+            document.getElementById("value3-text").textContent = t.value3Text;
+            document.getElementById("value4-title").textContent = t.value4Title;
+            document.getElementById("value4-text").textContent = t.value4Text;
+
+            // Footer
+            document.getElementById("footer-about").textContent = t.footerAbout;
+            document.getElementById("footer-about-text").textContent = t.footerAboutText;
+            document.getElementById("footer-links").textContent = t.footerLinks;
+            document.getElementById("footer-link-home").textContent = t.footerLinkHome;
+            document.getElementById("footer-link-team").textContent = t.footerLinkTeam;
+            document.getElementById("footer-link-faq").textContent = t.footerLinkFaq;
+            document.getElementById("footer-link-calc").textContent = t.footerLinkCalc;
+            document.getElementById("footer-legal").textContent = t.footerLegal;
+            document.getElementById("footer-privacy").textContent = t.footerPrivacy;
+            document.getElementById("footer-terms").textContent = t.footerTerms;
+            document.getElementById("footer-contact").textContent = t.footerContact;
+            document.getElementById("footer-contact-text").textContent = t.footerContactText;
+            document.getElementById("copyright").textContent = t.copyright;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'nl' : 'en';
+            // Save language preference
+            localStorage.setItem('solarSaverLang', currentLang);
+            applyTranslations();
+        }
+    </script>
 </body>
 </html>

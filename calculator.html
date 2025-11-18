@@ -62,7 +62,22 @@
         .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
 
         /* Language Toggle */
-        .lang-btn { position: absolute; top: 15px; right: 20px; background: #e0e0e0; border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #555; }
+        .lang-btn {
+            background: #ff9800;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            transition: background 0.3s;
+            margin-left: 1rem;
+        }
+
+        .lang-btn:hover {
+            background: #f57c00;
+        }
 
         /* Header & Tabs */
         .header { margin-bottom: 20px; margin-top: 10px; }
@@ -146,18 +161,17 @@
     <div class="nav-container">
         <a href="home.html" class="logo">Solar Saver</a>
         <ul>
-            <li><a href="home.html">Home</a></li>
-            <li><a href="team.html">Team</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-            <li><a href="calculator.html">Calculator</a></li>
+            <li><a href="home.html" id="nav-home">Home</a></li>
+            <li><a href="team.html" id="nav-team">Team</a></li>
+            <li><a href="faq.html" id="nav-faq">FAQ</a></li>
+            <li><a href="calculator.html" id="nav-calculator">Calculator</a></li>
         </ul>
+        <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
     </div>
 </nav>
 
 <div class="container">
 
-    <!-- Language Button -->
-    <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
 
     <div class="header">
         <h1>Solar Saver</h1>
@@ -380,6 +394,10 @@
     // --- TRANSLATION DATA ---
     const translations = {
         en: {
+            navHome: "Home",
+            navTeam: "Team",
+            navFaq: "FAQ",
+            navCalculator: "Calculator",
             subtitle: "Neighborhood Energy Hub",
             tabSimple: "Simple",
             tabAdvanced: "Surplus",
@@ -441,6 +459,10 @@
             btnJoin: "Join the Pilot"
         },
         nl: {
+            navHome: "Home",
+            navTeam: "Team",
+            navFaq: "FAQ",
+            navCalculator: "Calculator",
             subtitle: "Energiehub voor de Buurt",
             tabSimple: "Simpel",
             tabAdvanced: "Overschot",
@@ -523,9 +545,14 @@
         return roi;
     }
 
-    function toggleLanguage() {
-        currentLang = currentLang === 'en' ? 'nl' : 'en';
+    function applyTranslations() {
         const t = translations[currentLang];
+
+        // Navigation
+        document.getElementById("nav-home").textContent = t.navHome;
+        document.getElementById("nav-team").textContent = t.navTeam;
+        document.getElementById("nav-faq").textContent = t.navFaq;
+        document.getElementById("nav-calculator").textContent = t.navCalculator;
 
         // Simple Tab
         document.getElementById("subtitle-text").innerHTML = t.subtitle;
@@ -599,6 +626,13 @@
         calcSimple();
         calcAdvanced();
         calcPro();
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'nl' : 'en';
+        // Save language preference
+        localStorage.setItem('solarSaverLang', currentLang);
+        applyTranslations();
     }
 
     function switchTab(tabName) {

@@ -47,6 +47,24 @@
             gap: 2rem;
         }
 
+        /* Language Toggle */
+        .lang-btn {
+            background: #ff9800;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            transition: background 0.3s;
+            margin-left: 1rem;
+        }
+
+        .lang-btn:hover {
+            background: #f57c00;
+        }
+
         nav a {
             color: #fff;
             text-decoration: none;
@@ -363,11 +381,12 @@
         <div class="container">
             <a href="home.html" class="logo">Solar Saver</a>
             <ul>
-                <li><a href="home.html">Home</a></li>
-                <li><a href="team.html">Team</a></li>
-                <li><a href="faq.html">FAQ</a></li>
-                <li><a href="calculator.html">Calculator</a></li>
+                <li><a href="home.html" id="nav-home">Home</a></li>
+                <li><a href="team.html" id="nav-team">Team</a></li>
+                <li><a href="faq.html" id="nav-faq">FAQ</a></li>
+                <li><a href="calculator.html" id="nav-calculator">Calculator</a></li>
             </ul>
+            <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
         </div>
     </nav>
 
@@ -507,8 +526,195 @@
             </div>
         </div>
         <div class="copyright">
-            <p>&copy; 2024 Solar Saver. All rights reserved.</p>
+            <p id="copyright">&copy; 2024 Solar Saver. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Translation data
+        const translations = {
+            en: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "SolarVault",
+                heroSubtitle: "Use more of your own solar power, cut battery costs, and boost your returns.",
+                heroDescription: "Transform your solar energy into valuable heat storage. Join the energy revolution and maximize your investment while contributing to a sustainable future.",
+                btnCalculator: "Try Calculator",
+                btnRegister: "Register Interest",
+                missionTitle: "Our Mission",
+                missionP1: "Many people with solar panels generate extra green energy, but cannot use it all themselves and face limitations like a congested electricity grid, which leads to the customer paying when giving back.",
+                missionP2: "Our product solves this by letting you store heat and use all your self-generated solar power, boosting your return on investment and lowering battery costs.",
+                benefitsTitle: "Why Our Product?",
+                benefit1Title: "Reduce Energy Costs",
+                benefit1Text: "Significantly lower your monthly energy bills by maximizing your solar panel efficiency.",
+                benefit2Title: "Maximize Solar Usage",
+                benefit2Text: "Use 100% of your solar panel output instead of selling it back at unfavorable rates.",
+                benefit3Title: "High-Temperature Storage",
+                benefit3Text: "Store heat up to 600°C with our innovative sand battery technology.",
+                benefit4Title: "High Efficiency",
+                benefit4Text: "Achieve 80% efficiency compared to traditional 60% battery systems.",
+                benefit5Title: "Sustainable Future",
+                benefit5Text: "Contribute to the energy transition and help build a greener tomorrow.",
+                processTitle: "How Does Registration Work?",
+                step1Title: "Registration",
+                step1Text: "Register below by providing your contact details and basic information about your solar setup.",
+                step2Title: "Meeting",
+                step2Text: "After registration, we'll contact you to schedule a meeting. Both online and in-person options are available.",
+                step3Title: "Quote",
+                step3Text: "With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.",
+                step4Title: "Installation",
+                step4Text: "Once you agree with the quote and plan, we'll schedule the installation at your convenience.",
+                prototypeTitle: "See Our Prototype in Action",
+                prototypeText: "Watch our working prototype demonstrate how sand battery technology stores and releases thermal energy efficiently.",
+                ctaTitle: "Ready to Dive In With Us?",
+                ctaText: "Be among the first to experience the future of energy storage.",
+                ctaButton: "Calculate Your Savings",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Transforming solar energy into sustainable heat storage solutions.",
+                footerLinks: "Quick Links",
+                footerLegal: "Legal",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms & Conditions",
+                footerContact: "Contact",
+                footerContactText: "For more information, feel free to reach out!",
+                copyright: "© 2024 Solar Saver. All rights reserved."
+            },
+            nl: {
+                navHome: "Home",
+                navTeam: "Team",
+                navFaq: "FAQ",
+                navCalculator: "Calculator",
+                heroTitle: "SolarVault",
+                heroSubtitle: "Gebruik meer van je eigen zonne-energie, verlaag batterijkosten en verhoog je rendement.",
+                heroDescription: "Transformeer je zonne-energie in waardevolle warmteopslag. Sluit je aan bij de energierevolutie en maximaliseer je investering terwijl je bijdraagt aan een duurzame toekomst.",
+                btnCalculator: "Probeer Calculator",
+                btnRegister: "Toon interesse",
+                missionTitle: "Onze Missie",
+                missionP1: "Veel mensen met zonnepanelen genereren extra groene energie, maar kunnen deze niet volledig zelf gebruiken en worden geconfronteerd met beperkingen zoals een overbelast elektriciteitsnet, waardoor de klant betaalt bij teruglevering.",
+                missionP2: "Ons product lost dit op door warmte op te slaan en al je zelf opgewekte zonne-energie te gebruiken, waardoor je rendement op je investering toeneemt en de batterijkosten dalen.",
+                benefitsTitle: "Waarom Ons Product?",
+                benefit1Title: "Verlaag Energiekosten",
+                benefit1Text: "Verlaag je maandelijkse energierekening aanzienlijk door de efficiëntie van je zonnepanelen te maximaliseren.",
+                benefit2Title: "Maximaliseer Zonne-energie Gebruik",
+                benefit2Text: "Gebruik 100% van je zonnepaneel output in plaats van het terug te verkopen tegen ongunstige tarieven.",
+                benefit3Title: "Hoge-Temperatuur Opslag",
+                benefit3Text: "Sla warmte op tot 600°C met onze innovatieve zandbatterij technologie.",
+                benefit4Title: "Hoge Efficiëntie",
+                benefit4Text: "Bereik 80% efficiëntie vergeleken met traditionele 60% batterijsystemen.",
+                benefit5Title: "Duurzame Toekomst",
+                benefit5Text: "Draag bij aan de energietransitie en help een groenere toekomst te bouwen.",
+                processTitle: "Hoe Werkt Registratie?",
+                step1Title: "Registratie",
+                step1Text: "Registreer hieronder door je contactgegevens en basisinformatie over je zonne-installatie te verstrekken.",
+                step2Title: "Afspraak",
+                step2Text: "Na registratie nemen we contact met je op om een afspraak in te plannen. Zowel online als persoonlijke opties zijn beschikbaar.",
+                step3Title: "Offerte",
+                step3Text: "Met inzichten uit onze afspraak maken we een op maat gemaakte offerte en plan voor jouw behoeften. Wijzigingen zijn in deze fase mogelijk.",
+                step4Title: "Installatie",
+                step4Text: "Zodra je akkoord gaat met de offerte en het plan, plannen we de installatie op een moment dat jou uitkomt.",
+                prototypeTitle: "Zie Ons Prototype in Actie",
+                prototypeText: "Bekijk hoe ons werkende prototype demonstreert hoe zandbatterij technologie thermische energie efficiënt opslaat en vrijgeeft.",
+                ctaTitle: "Klaar om Met Ons Mee te Doen?",
+                ctaText: "Wees een van de eersten die de toekomst van energieopslag ervaart.",
+                ctaButton: "Bereken Je Besparingen",
+                footerAbout: "Solar Saver",
+                footerAboutText: "Zonne-energie transformeren in duurzame warmteopslag oplossingen.",
+                footerLinks: "Snelle Links",
+                footerLegal: "Juridisch",
+                footerPrivacy: "Privacybeleid",
+                footerTerms: "Algemene Voorwaarden",
+                footerContact: "Contact",
+                footerContactText: "Voor meer informatie kun je gerust contact opnemen!",
+                copyright: "© 2024 Solar Saver. Alle rechten voorbehouden."
+            }
+        };
+
+        // Get saved language or default to English
+        let currentLang = localStorage.getItem('solarSaverLang') || 'en';
+
+        // Apply saved language on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+        });
+
+        function applyTranslations() {
+            const t = translations[currentLang];
+
+            // Navigation
+            document.getElementById("nav-home").textContent = t.navHome;
+            document.getElementById("nav-team").textContent = t.navTeam;
+            document.getElementById("nav-faq").textContent = t.navFaq;
+            document.getElementById("nav-calculator").textContent = t.navCalculator;
+
+            // Hero Section
+            document.querySelector(".hero h1").textContent = t.heroTitle;
+            document.querySelector(".hero .subtitle").textContent = t.heroSubtitle;
+            document.querySelector(".hero p:not(.subtitle)").textContent = t.heroDescription;
+            document.querySelectorAll(".hero .btn")[0].textContent = t.btnCalculator;
+            document.querySelectorAll(".hero .btn")[1].textContent = t.btnRegister;
+
+            // Mission Section
+            document.querySelector("#mission h2").textContent = t.missionTitle;
+            const missionPs = document.querySelectorAll("#mission .mission-content p");
+            missionPs[0].textContent = t.missionP1;
+            missionPs[1].textContent = t.missionP2;
+
+            // Benefits Section
+            document.querySelector("#benefits h2").textContent = t.benefitsTitle;
+            const benefitCards = document.querySelectorAll(".benefit-card");
+            benefitCards[0].querySelector("h3").textContent = t.benefit1Title;
+            benefitCards[0].querySelector("p").textContent = t.benefit1Text;
+            benefitCards[1].querySelector("h3").textContent = t.benefit2Title;
+            benefitCards[1].querySelector("p").textContent = t.benefit2Text;
+            benefitCards[2].querySelector("h3").textContent = t.benefit3Title;
+            benefitCards[2].querySelector("p").textContent = t.benefit3Text;
+            benefitCards[3].querySelector("h3").textContent = t.benefit4Title;
+            benefitCards[3].querySelector("p").textContent = t.benefit4Text;
+            benefitCards[4].querySelector("h3").textContent = t.benefit5Title;
+            benefitCards[4].querySelector("p").textContent = t.benefit5Text;
+
+            // Process Section
+            document.querySelector("#process h2").textContent = t.processTitle;
+            const steps = document.querySelectorAll(".step");
+            steps[0].querySelector("h3").textContent = t.step1Title;
+            steps[0].querySelector("p").textContent = t.step1Text;
+            steps[1].querySelector("h3").textContent = t.step2Title;
+            steps[1].querySelector("p").textContent = t.step2Text;
+            steps[2].querySelector("h3").textContent = t.step3Title;
+            steps[2].querySelector("p").textContent = t.step3Text;
+            steps[3].querySelector("h3").textContent = t.step4Title;
+            steps[3].querySelector("p").textContent = t.step4Text;
+
+            // Prototype Section
+            document.querySelector("#prototype h2").textContent = t.prototypeTitle;
+            document.querySelector("#prototype p").textContent = t.prototypeText;
+
+            // CTA Section
+            document.querySelector(".cta-section h2").textContent = t.ctaTitle;
+            document.querySelector(".cta-section p").textContent = t.ctaText;
+            document.querySelector(".cta-section .btn").textContent = t.ctaButton;
+
+            // Footer
+            const footerContent = document.querySelectorAll("footer .footer-content > div");
+            footerContent[0].querySelector("h3").textContent = t.footerAbout;
+            footerContent[0].querySelector("p").textContent = t.footerAboutText;
+            footerContent[1].querySelector("h3").textContent = t.footerLinks;
+            footerContent[2].querySelector("h3").textContent = t.footerLegal;
+            footerContent[2].querySelectorAll("a")[0].textContent = t.footerPrivacy;
+            footerContent[2].querySelectorAll("a")[1].textContent = t.footerTerms;
+            footerContent[3].querySelector("h3").textContent = t.footerContact;
+            footerContent[3].querySelectorAll("p")[1].textContent = t.footerContactText;
+            document.getElementById("copyright").textContent = t.copyright;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'nl' : 'en';
+            // Save language preference
+            localStorage.setItem('solarSaverLang', currentLang);
+            applyTranslations();
+        }
+    </script>
 </body>
 </html>
