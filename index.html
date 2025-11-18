@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SandStore App</title>
+    <title>Solar Saver App</title>
     <style>
         /* --- CSS STYLES (LIGHT MODE) --- */
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: #f4f7f6; color: #333; text-align: center; padding: 0; margin: 0; }
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+
+        /* Language Toggle */
+        .lang-btn { position: absolute; top: 15px; right: 20px; background: #e0e0e0; border: none; padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 0.8rem; font-weight: bold; color: #555; }
 
         /* Header & Tabs */
-        .header { margin-bottom: 20px; }
+        .header { margin-bottom: 20px; margin-top: 10px; }
         h1 { color: #e65100; margin: 5px 0; font-size: 1.8rem; } /* Darker orange for contrast */
         p.subtitle { color: #666; margin: 0; font-size: 0.9rem; }
 
-        .tabs { display: flex; justify-content: center; margin-bottom: 20px; background: #e0e0e0; border-radius: 25px; padding: 5px; }
-        .tab { flex: 1; padding: 10px; cursor: pointer; border-radius: 20px; color: #666; font-weight: 600; transition: 0.3s; }
+        .tabs { display: flex; justify-content: center; margin-bottom: 20px; background: #e0e0e0; border-radius: 25px; padding: 5px; flex-wrap: wrap; }
+        .tab { flex: 1; padding: 10px 5px; cursor: pointer; border-radius: 20px; color: #666; font-weight: 600; transition: 0.3s; font-size: 0.85rem; white-space: nowrap; margin: 2px; }
         .tab.active { background-color: #ff9800; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
 
         /* Cards */
@@ -34,7 +37,7 @@
             color: #333;
             padding: 10px;
             border-radius: 8px;
-            width: 100px;
+            width: 90px;
             text-align: center;
             font-size: 1rem;
             font-weight: bold;
@@ -54,8 +57,12 @@
         .bar-fill { height: 100%; background-color: #ff9800; width: 0%; transition: width 0.5s ease-out; }
         .bar-label { position: absolute; top: 0; left: 0; width: 100%; text-align: center; line-height: 20px; font-size: 0.75rem; color: white; text-shadow: 0 0 3px rgba(0,0,0,0.3); font-weight: 600; }
 
+        /* Video Container */
+        .video-wrapper { width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #000; }
+        video { width: 100%; display: block; }
+
         /* Buttons */
-        .btn { background-color: #ff9800; border: none; padding: 16px; color: white; border-radius: 12px; font-size: 1.1rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: auto; display: block; text-decoration: none; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2); transition: background-color 0.2s; box-sizing: border-box; }
+        .btn { background-color: #ff9800; border: none; padding: 16px; color: white; border-radius: 12px; font-size: 1.1rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: auto; display: block; text-decoration: none; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2); transition: background-color 0.2s; box-sizing: border-box; text-align: center; }
         .btn:hover { background-color: #f57c00; }
 
         /* Info Box */
@@ -76,45 +83,47 @@
 
 <div class="container">
 
+    <!-- Language Button -->
+    <button class="lang-btn" onclick="toggleLanguage()">NL / EN</button>
+
     <div class="header">
-        <h1>Solar saver</h1>
-        <p class="subtitle">Neighborhood Energy Hub</p>
+        <h1>Solar Saver</h1>
+        <p class="subtitle" id="subtitle-text">Neighborhood Energy Hub</p>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('simple')">Basic Savings</div>
-        <div class="tab" onclick="switchTab('advanced')">Surplus Power</div>
+        <div class="tab active" onclick="switchTab('simple')" id="tab-simple">Simple</div>
+        <div class="tab" onclick="switchTab('advanced')" id="tab-advanced">Surplus</div>
+        <div class="tab" onclick="switchTab('pro')" id="tab-pro">Pro Calc</div>
+        <div class="tab" onclick="switchTab('video')" id="tab-video">Video</div>
     </div>
 
-    <!-- PAGE 1: BASIC CALCULATOR -->
+    <!-- PAGE 1: SIMPLE CALCULATOR -->
     <div id="simple" class="page active">
         <div class="card">
-            <h3>Your Situation</h3>
-
+            <h3 id="simple-h3">Your Situation</h3>
             <div class="input-group">
-                <span class="label">Number of Solar Panels</span>
+                <span class="label" id="label-panels">Number of Solar Panels</span>
                 <input type="number" min="0" value="10" id="panels" oninput="calcSimple()">
             </div>
-
             <div class="input-group">
-                <span class="label">Monthly Energy Bill (&euro;)</span>
+                <span class="label" id="label-bill">Monthly Energy Bill (&euro;)</span>
                 <input type="number" min="0" value="180" id="bill" oninput="calcSimple()">
             </div>
         </div>
-
         <div class="card">
-            <h3>Estimated Results</h3>
+            <h3 id="results-h3">Estimated Results</h3>
             <div class="result-box">
-                <div class="label" style="text-align: center;">Annual Savings</div>
+                <div class="label" style="text-align: center;" id="label-annual">Annual Savings</div>
                 <div class="big-number" id="savingDisplay">&euro; 420</div>
-                <div class="small-note">vs. Gas/Heat Pump</div>
+                <div class="small-note" id="note-annual">vs. Gas/Heat Pump</div>
             </div>
             <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
             <div class="result-box">
-                <div class="label" style="text-align: center;">Solar Earn-Back Time</div>
+                <div class="label" style="text-align: center;" id="label-roi">Solar Earn-Back Time</div>
                 <div class="med-number" id="roiDisplay">4.5 Years</div>
-                <div class="small-note">Reduced from 7.5 years</div>
+                <div class="small-note" id="note-roi">Reduced from 7.5 years</div>
             </div>
         </div>
     </div>
@@ -122,31 +131,27 @@
     <!-- PAGE 2: SURPLUS CALCULATOR -->
     <div id="advanced" class="page">
         <div class="card">
-            <h3>Your Surplus Energy</h3>
-            <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;">How much electricity do you export to the grid per year?</p>
-
+            <h3 id="advanced-h3">Your Surplus Energy</h3>
+            <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;" id="advanced-desc">How much electricity do you export to the grid per year?</p>
             <div class="input-group">
-                <span class="label">Excess Electricity (kWh)</span>
+                <span class="label" id="label-excess">Excess Electricity (kWh)</span>
                 <input type="number" min="0" value="2000" id="excess" oninput="calcAdvanced()">
             </div>
         </div>
-
         <div class="card">
-            <h3>Sand Battery Performance</h3>
-
+            <h3 id="perf-h3">Sand Battery Performance</h3>
             <div style="margin-bottom: 20px;">
                 <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span>Energy Wasted (Grid)</span>
+                    <span id="label-waste">Energy Wasted (Grid)</span>
                     <span>0%</span>
                 </div>
                 <div class="bar-container">
                     <div class="bar-fill" style="width: 0%; background: #d32f2f;"></div>
                 </div>
             </div>
-
             <div style="margin-bottom: 10px;">
                 <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span style="color:#e65100; font-weight: 600;">Stored in Sand Battery</span>
+                    <span style="color:#e65100; font-weight: 600;" id="label-stored">Stored in Sand Battery</span>
                     <span style="color:#e65100; font-weight: 600;">100%</span>
                 </div>
                 <div class="bar-container">
@@ -154,46 +159,282 @@
                     <div class="bar-label" id="storedDisplay">2000 kWh Heat Stored</div>
                 </div>
             </div>
-
-            <p class="small-note" style="margin-top: 5px;">We use 100% of your surplus to heat the neighborhood.</p>
+            <p class="small-note" style="margin-top: 5px;" id="note-perf">We use 100% of your surplus to heat the neighborhood.</p>
         </div>
-
         <div class="card">
-            <h3>Total Value Created</h3>
+            <h3 id="value-h3">Total Value Created</h3>
             <div class="result-box">
-                <div class="label" style="text-align: center;">Your "Solar Bonus" Value</div>
+                <div class="label" style="text-align: center;" id="label-bonus">Your "Solar Bonus" Value</div>
                 <div class="med-number" id="bonusDisplay">&euro; 240</div>
-                <div class="small-note">Heat credits earned per year</div>
+                <div class="small-note" id="note-bonus">Heat credits earned per year</div>
             </div>
             <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
             <div class="result-box">
-                <div class="label" style="text-align: center;">Total Annual Bill Reduction</div>
+                <div class="label" style="text-align: center;" id="label-total">Total Annual Bill Reduction</div>
                 <div class="big-number" id="totalSaveDisplay">&euro; 440</div>
-                <div class="small-note">Fixed Savings + Solar Bonus</div>
+                <div class="small-note" id="note-total">Fixed Savings + Solar Bonus</div>
             </div>
         </div>
     </div>
 
-    <!-- NEW LOGIC & BREAKDOWN SECTION -->
-    <div class="card info-card">
-        <h3 style="color: #e65100; margin-bottom: 10px;">How We Calculate This</h3>
+    <!-- PAGE 3: PRO CALCULATOR (NEW) -->
+    <div id="pro" class="page">
+        <div class="card">
+            <h3 id="pro-h3">Full Analysis</h3>
+            <div class="input-group">
+                <span class="label" id="label-pro-panels">Total Solar Panels</span>
+                <input type="number" min="0" value="12" id="pro-panels" oninput="calcPro()">
+            </div>
+            <div class="input-group">
+                <span class="label" id="label-pro-bill">Current Monthly Bill (&euro;)</span>
+                <input type="number" min="50" value="200" id="pro-bill" oninput="calcPro()">
+            </div>
+            <div class="input-group">
+                <span class="label" id="label-pro-excess">Excess Energy (kWh/yr)</span>
+                <input type="number" min="0" value="2500" id="pro-excess" oninput="calcPro()">
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 id="pro-results-h3">Your Personal Solar Saver Plan</h3>
+
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <span class="label" id="breakdown-fixed">Fixed Maint. Savings</span>
+                <span style="font-weight:bold; color:#2e7d32;" id="val-fixed">+ &euro;200</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                <span class="label" id="breakdown-eff">Efficiency Gain (8%)</span>
+                <span style="font-weight:bold; color:#2e7d32;" id="val-eff">+ &euro;192</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                <span class="label" id="breakdown-solar">Solar Surplus Bonus</span>
+                <span style="font-weight:bold; color:#e65100;" id="val-solar">+ &euro;300</span>
+            </div>
+
+            <div class="result-box" style="background:#f9fbe7; padding:15px; border-radius:10px; border:1px solid #c5e1a5;">
+                <div class="label" style="text-align: center; color:#33691e;" id="label-pro-total">Total Annual Benefit</div>
+                <div class="big-number" style="color:#33691e;" id="proTotalDisplay">&euro; 692</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: VIDEO TAB -->
+    <div id="video" class="page">
+        <div class="card" style="text-align: center;">
+            <h3 id="video-h3">Our Prototype in Action</h3>
+            <p class="small-note" style="margin-bottom: 15px;" id="video-desc">See how the Sand Battery powers a neighborhood.</p>
+
+            <div class="video-wrapper">
+                <video controls poster="https://via.placeholder.com/480x270/e0e0e0/888888?text=Video+Preview">
+                    <source src="prototype video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIC SECTIONS -->
+
+    <!-- Global Logic (Simple/Advanced Tabs) -->
+    <div class="card info-card" id="info-section">
+        <h3 style="color: #e65100; margin-bottom: 10px;" id="logic-h3">How We Calculate This</h3>
         <ul class="info-list">
-            <li><strong>Base Savings:</strong> You save ~&euro;200/year by avoiding heat pump maintenance fees.</li>
-            <li><strong>Solar Value:</strong> We pay &euro;0.12 per kWh for your surplus heat—beating current grid export fees.</li>
-            <li><strong>Efficiency:</strong> Our bulk heating is ~8% cheaper than individual gas or electric systems.</li>
+            <li id="li-base"><strong>Base Savings:</strong> You save ~&euro;200/year by avoiding heat pump maintenance fees.</li>
+            <li id="li-rate"><strong>Solar Value:</strong> We pay <strong>&euro;0.12/kWh</strong>. The grid only pays <strong>~&euro;0.04/kWh</strong> (or charges fees).</li>
+            <li id="li-eff"><strong>Efficiency:</strong> Our bulk heating is ~8% cheaper than individual gas or electric systems.</li>
         </ul>
-        <div class="quote">
+        <div class="quote" id="quote-text">
             "Our algorithm factors in post-2027 energy prices, beating grid export fees while undercutting gas prices."
         </div>
     </div>
 
-    <a href="https://sites.google.com/view/solarsaver/home" target="_blank" class="btn">Join the Pilot</a>
+    <!-- Pro Logic (Only visible on Pro Tab) -->
+    <div class="card info-card" id="pro-info-section" style="display:none; background-color:#e3f2fd; border-color:#bbdefb;">
+        <h3 style="color: #0277bd; margin-bottom: 10px;" id="pro-logic-h3">Pro Calculation Breakdown</h3>
+        <ul class="info-list">
+            <li id="li-pro-1"><strong>Comprehensive:</strong> Combines your specific bill savings with your exact surplus generation.</li>
+            <li id="li-pro-2"><strong>The Formula:</strong> (Fixed Maintenance Savings) + (8% of Current Bill) + (Excess kWh × &euro;0.12).</li>
+            <li id="li-pro-3"><strong>Result:</strong> This gives the most accurate projection of your financial advantage with Solar Saver.</li>
+        </ul>
+    </div>
+
+    <a href="https://sites.google.com/view/solarsaver/home" target="_blank" class="btn" id="btn-join">Join the Pilot</a>
 
 </div>
 
 <script>
 
+    // --- TRANSLATION DATA ---
+    const translations = {
+        en: {
+            subtitle: "Neighborhood Energy Hub",
+            tabSimple: "Simple",
+            tabAdvanced: "Surplus",
+            tabPro: "Pro Calc",
+            tabVideo: "Video",
+            h3Simple: "Your Situation",
+            lblPanels: "Number of Solar Panels",
+            lblBill: "Monthly Energy Bill (&euro;)",
+            h3Results: "Estimated Results",
+            lblAnnual: "Annual Savings",
+            noteAnnual: "vs. Gas/Heat Pump",
+            lblRoi: "Solar Earn-Back Time",
+            noteRoi: "Reduced from 7.5 years",
+            years: "Years",
+            h3Advanced: "Your Surplus Energy",
+            descAdvanced: "How much electricity do you export to the grid per year?",
+            lblExcess: "Excess Electricity (kWh)",
+            h3Perf: "Sand Battery Performance",
+            lblWaste: "Energy Wasted (Grid)",
+            lblStored: "Stored in Sand Battery",
+            storedText: "Heat Stored",
+            notePerf: "We use 100% of your surplus to heat the neighborhood.",
+            h3Value: "Total Value Created",
+            lblBonus: "Your \"Solar Bonus\" Value",
+            noteBonus: "Heat credits earned per year",
+            lblTotal: "Total Annual Bill Reduction",
+            noteTotal: "Fixed Savings + Solar Bonus",
+            h3Pro: "Full Analysis",
+            lblProPanels: "Total Solar Panels",
+            lblProBill: "Current Monthly Bill (&euro;)",
+            lblProExcess: "Excess Energy (kWh/yr)",
+            h3ProResults: "Your Personal Solar Saver Plan",
+            lblBreakFixed: "Fixed Maint. Savings",
+            lblBreakEff: "Efficiency Gain (8%)",
+            lblBreakSolar: "Solar Surplus Bonus",
+            lblProTotal: "Total Annual Benefit",
+            h3Video: "Our Prototype in Action",
+            descVideo: "See how the Sand Battery powers a neighborhood.",
+            h3Logic: "How We Calculate This",
+            liBase: "<strong>Base Savings:</strong> You save ~&euro;200/year by avoiding heat pump maintenance fees.",
+            liRate: "<strong>Solar Value:</strong> We pay <strong>&euro;0.12/kWh</strong>. The grid only pays <strong>~&euro;0.04/kWh</strong> (or charges fees).",
+            liEff: "<strong>Efficiency:</strong> Our bulk heating is ~8% cheaper than individual gas or electric systems.",
+            quote: "\"Our algorithm factors in post-2027 energy prices, beating grid export fees while undercutting gas prices.\"",
+            h3ProLogic: "Pro Calculation Breakdown",
+            liPro1: "<strong>Comprehensive:</strong> Combines your specific bill savings with your exact surplus generation.",
+            liPro2: "<strong>The Formula:</strong> (Fixed Maintenance Savings) + (8% of Current Bill) + (Excess kWh × &euro;0.12).",
+            liPro3: "<strong>Result:</strong> This gives the most accurate projection of your financial advantage with Solar Saver.",
+            btnJoin: "Join the Pilot"
+        },
+        nl: {
+            subtitle: "Energiehub voor de Buurt",
+            tabSimple: "Simpel",
+            tabAdvanced: "Overschot",
+            tabPro: "Pro Calc",
+            tabVideo: "Video",
+            h3Simple: "Uw Situatie",
+            lblPanels: "Aantal Zonnepanelen",
+            lblBill: "Maandelijkse Energierekening (&euro;)",
+            h3Results: "Geschatte Resultaten",
+            lblAnnual: "Jaarlijkse Besparing",
+            noteAnnual: "t.o.v. Gas/Warmtepomp",
+            lblRoi: "Terugverdientijd Panelen",
+            noteRoi: "Verlaagd van 7,5 jaar",
+            years: "Jaar",
+            h3Advanced: "Uw Energieoverschot",
+            descAdvanced: "Hoeveel stroom levert u jaarlijks terug aan het net?",
+            lblExcess: "Overtollige Stroom (kWh)",
+            h3Perf: "Zandbatterij Prestaties",
+            lblWaste: "Verspilde Energie (Net)",
+            lblStored: "Opgeslagen in Zandbatterij",
+            storedText: "Warmte Opgeslagen",
+            notePerf: "We gebruiken 100% van uw overschot om de buurt te verwarmen.",
+            h3Value: "Gecreëerde Waarde",
+            lblBonus: "Uw \"Zonne-Bonus\" Waarde",
+            noteBonus: "Warmtekrediet per jaar verdiend",
+            lblTotal: "Totale Verlaging Energierekening",
+            noteTotal: "Vaste Besparing + Zonne-Bonus",
+            h3Pro: "Volledige Analyse",
+            lblProPanels: "Totaal Zonnepanelen",
+            lblProBill: "Huidige Maandelijkse Rekening (&euro;)",
+            lblProExcess: "Overtollige Energie (kWh/jr)",
+            h3ProResults: "Uw Persoonlijke Solar Saver Plan",
+            lblBreakFixed: "Vaste Onderhoudsbesparing",
+            lblBreakEff: "Efficiëntiewinst (8%)",
+            lblBreakSolar: "Zonne-Overschot Bonus",
+            lblProTotal: "Totaal Jaarlijks Voordeel",
+            h3Video: "Onze Prototype in Actie",
+            descVideo: "Zie hoe de Zandbatterij een buurt van energie voorziet.",
+            h3Logic: "Hoe we dit berekenen",
+            liBase: "<strong>Basisbesparing:</strong> U bespaart ~&euro;200/jaar door onderhoudskosten van warmtepompen te vermijden.",
+            liRate: "<strong>Zonne-waarde:</strong> Wij betalen <strong>&euro;0,12/kWh</strong>. Het net betaalt slechts <strong>~&euro;0,04/kWh</strong> (of rekent kosten).",
+            liEff: "<strong>Efficiëntie:</strong> Onze collectieve verwarming is ~8% goedkoper dan individuele gas- of elektrische systemen.",
+            quote: "\"Ons algoritme houdt rekening met energieprijzen na 2027: beter dan terugleverkosten en goedkoper dan gas.\"",
+            h3ProLogic: "Pro Berekening Uitleg",
+            liPro1: "<strong>Compleet:</strong> Combineert uw specifieke rekeningbesparing met uw exacte overschot.",
+            liPro2: "<strong>De Formule:</strong> (Vaste Onderhoudsbesparing) + (8% van Huidige Rekening) + (Overschot kWh × &euro;0,12).",
+            liPro3: "<strong>Resultaat:</strong> Dit geeft de meest nauwkeurige projectie van uw voordeel met Solar Saver.",
+            btnJoin: "Meld u aan voor de Pilot"
+        }
+    };
+
+    let currentLang = 'en';
+
     // --- LOGIC START ---
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'nl' : 'en';
+        const t = translations[currentLang];
+
+        // Simple Tab
+        document.getElementById("subtitle-text").innerHTML = t.subtitle;
+        document.getElementById("tab-simple").innerHTML = t.tabSimple;
+        document.getElementById("tab-advanced").innerHTML = t.tabAdvanced;
+        document.getElementById("tab-pro").innerHTML = t.tabPro;
+        document.getElementById("tab-video").innerHTML = t.tabVideo;
+        document.getElementById("simple-h3").innerHTML = t.h3Simple;
+        document.getElementById("label-panels").innerHTML = t.lblPanels;
+        document.getElementById("label-bill").innerHTML = t.lblBill;
+        document.getElementById("results-h3").innerHTML = t.h3Results;
+        document.getElementById("label-annual").innerHTML = t.lblAnnual;
+        document.getElementById("note-annual").innerHTML = t.noteAnnual;
+        document.getElementById("label-roi").innerHTML = t.lblRoi;
+        document.getElementById("note-roi").innerHTML = t.noteRoi;
+
+        // Advanced Tab
+        document.getElementById("advanced-h3").innerHTML = t.h3Advanced;
+        document.getElementById("advanced-desc").innerHTML = t.descAdvanced;
+        document.getElementById("label-excess").innerHTML = t.lblExcess;
+        document.getElementById("perf-h3").innerHTML = t.h3Perf;
+        document.getElementById("label-waste").innerHTML = t.lblWaste;
+        document.getElementById("label-stored").innerHTML = t.lblStored;
+        document.getElementById("note-perf").innerHTML = t.notePerf;
+        document.getElementById("value-h3").innerHTML = t.h3Value;
+        document.getElementById("label-bonus").innerHTML = t.lblBonus;
+        document.getElementById("note-bonus").innerHTML = t.noteBonus;
+        document.getElementById("label-total").innerHTML = t.lblTotal;
+        document.getElementById("note-total").innerHTML = t.noteTotal;
+
+        // Pro Tab
+        document.getElementById("pro-h3").innerHTML = t.h3Pro;
+        document.getElementById("label-pro-panels").innerHTML = t.lblProPanels;
+        document.getElementById("label-pro-bill").innerHTML = t.lblProBill;
+        document.getElementById("label-pro-excess").innerHTML = t.lblProExcess;
+        document.getElementById("pro-results-h3").innerHTML = t.h3ProResults;
+        document.getElementById("breakdown-fixed").innerHTML = t.lblBreakFixed;
+        document.getElementById("breakdown-eff").innerHTML = t.lblBreakEff;
+        document.getElementById("breakdown-solar").innerHTML = t.lblBreakSolar;
+        document.getElementById("label-pro-total").innerHTML = t.lblProTotal;
+
+        // General
+        document.getElementById("video-h3").innerHTML = t.h3Video;
+        document.getElementById("video-desc").innerHTML = t.descVideo;
+        document.getElementById("logic-h3").innerHTML = t.h3Logic;
+        document.getElementById("li-base").innerHTML = t.liBase;
+        document.getElementById("li-rate").innerHTML = t.liRate;
+        document.getElementById("li-eff").innerHTML = t.liEff;
+        document.getElementById("quote-text").innerHTML = t.quote;
+        document.getElementById("pro-logic-h3").innerHTML = t.h3ProLogic;
+        document.getElementById("li-pro-1").innerHTML = t.liPro1;
+        document.getElementById("li-pro-2").innerHTML = t.liPro2;
+        document.getElementById("li-pro-3").innerHTML = t.liPro3;
+        document.getElementById("btn-join").innerHTML = t.btnJoin;
+
+        // Re-run calcs to update labels inside logic
+        calcSimple();
+        calcAdvanced();
+        calcPro();
+    }
 
     function switchTab(tabName) {
         // Hide all pages
@@ -202,12 +443,19 @@
 
         // Show selected
         document.getElementById(tabName).classList.add('active');
+        document.getElementById('tab-'+tabName).classList.add('active');
 
-        // Update Tab Style
-        if(tabName === 'simple') {
-            document.querySelectorAll('.tab')[0].classList.add('active');
+        // Logic Sections Visibility
+        if(tabName === 'simple' || tabName === 'advanced') {
+            document.getElementById('info-section').style.display = 'block';
+            document.getElementById('pro-info-section').style.display = 'none';
+        } else if (tabName === 'pro') {
+            document.getElementById('info-section').style.display = 'none';
+            document.getElementById('pro-info-section').style.display = 'block';
         } else {
-            document.querySelectorAll('.tab')[1].classList.add('active');
+            // Video
+            document.getElementById('info-section').style.display = 'none';
+            document.getElementById('pro-info-section').style.display = 'none';
         }
     }
 
@@ -215,44 +463,60 @@
         let pInput = document.getElementById("panels").value;
         let bInput = document.getElementById("bill").value;
 
-        // Fallback to 0 if empty
         let p = pInput ? parseInt(pInput) : 0;
         let b = bInput ? parseInt(bInput) : 0;
 
-        // Logic: Fixed saving (~200) + Efficiency (10% of bill) + Solar impact
         let annualSavings = 200 + (b * 12 * 0.08) + (p * 15);
-
-        // ROI logic
         let roi = 7.5 - (p * 0.12);
         if (roi < 4.0) roi = 4.0;
 
-        // Using Unicode escape sequence for Euro symbol to prevent encoding glitches
+        let roiString = roi.toFixed(1);
+        if(currentLang === 'nl') roiString = roiString.replace('.', ',');
+
         document.getElementById("savingDisplay").innerText = "\u20AC " + Math.round(annualSavings);
-        document.getElementById("roiDisplay").innerText = roi.toFixed(1) + " Years";
+        document.getElementById("roiDisplay").innerText = roiString + " " + translations[currentLang].years;
     }
 
     function calcAdvanced() {
         let excessInput = document.getElementById("excess").value;
         let excess = excessInput ? parseInt(excessInput) : 0;
 
-        document.getElementById("storedDisplay").innerText = excess + " kWh Heat Stored";
+        document.getElementById("storedDisplay").innerText = excess + " kWh " + translations[currentLang].storedText;
 
-        // Logic:
-        // Value of heat credit = ~€0.12 per kWh (cheaper than gas, valuable for us)
         let bonusValue = excess * 0.12;
-
-        // Base fixed savings for connecting to the network (maintenance etc)
         let baseSavings = 200;
         let totalSavings = baseSavings + bonusValue;
 
-        // Using Unicode escape sequence for Euro symbol
         document.getElementById("bonusDisplay").innerText = "\u20AC " + Math.round(bonusValue);
         document.getElementById("totalSaveDisplay").innerText = "\u20AC " + Math.round(totalSavings);
+    }
+
+    function calcPro() {
+        // Inputs
+        let billInput = document.getElementById("pro-bill").value;
+        let excessInput = document.getElementById("pro-excess").value;
+
+        let bill = billInput ? parseInt(billInput) : 0;
+        let excess = excessInput ? parseInt(excessInput) : 0;
+
+        // Logic Breakdown
+        let fixedSavings = 200; // Base maintenance saving
+        let efficiencyGain = (bill * 12) * 0.08; // 8% of annual bill
+        let solarBonus = excess * 0.12; // Surplus value
+
+        let totalBenefit = fixedSavings + efficiencyGain + solarBonus;
+
+        // Update UI
+        document.getElementById("val-fixed").innerText = "+ \u20AC " + fixedSavings;
+        document.getElementById("val-eff").innerText = "+ \u20AC " + Math.round(efficiencyGain);
+        document.getElementById("val-solar").innerText = "+ \u20AC " + Math.round(solarBonus);
+        document.getElementById("proTotalDisplay").innerText = "\u20AC " + Math.round(totalBenefit);
     }
 
     // Initialize
     calcSimple();
     calcAdvanced();
+    calcPro();
 
     // --- LOGIC END ---
 </script>
