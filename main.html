@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SandStore App</title>
+    <style>
+        /* --- CSS STYLES (LIGHT MODE) --- */
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: #f4f7f6; color: #333; text-align: center; padding: 0; margin: 0; }
+        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; }
+
+        /* Header & Tabs */
+        .header { margin-bottom: 20px; }
+        h1 { color: #e65100; margin: 5px 0; font-size: 1.8rem; } /* Darker orange for contrast */
+        p.subtitle { color: #666; margin: 0; font-size: 0.9rem; }
+
+        .tabs { display: flex; justify-content: center; margin-bottom: 20px; background: #e0e0e0; border-radius: 25px; padding: 5px; }
+        .tab { flex: 1; padding: 10px; cursor: pointer; border-radius: 20px; color: #666; font-weight: 600; transition: 0.3s; }
+        .tab.active { background-color: #ff9800; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
+
+        /* Cards */
+        .card { background-color: #ffffff; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; border: 1px solid #f0f0f0; }
+        .card h3 { margin-top: 0; color: #333; font-size: 1.1rem; margin-bottom: 15px;}
+
+        /* Inputs */
+        .input-group { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .label { color: #555; font-size: 0.9rem; flex-grow: 1; text-align: left; font-weight: 500; }
+        .value-display { font-weight: bold; color: #333; } /* Dark text for value labels */
+
+        /* Styled Number Inputs */
+        input[type=number] {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            color: #333;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: bold;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input[type=number]:focus { border-color: #ff9800; background-color: #fff; }
+
+        /* Results */
+        .result-box { text-align: center; margin-top: 10px; }
+        .big-number { font-size: 2.5rem; font-weight: 800; color: #2e7d32; margin: 5px 0; } /* Green */
+        .med-number { font-size: 1.8rem; font-weight: 700; color: #ff9800; }
+        .small-note { color: #888; font-size: 0.8rem; }
+
+        /* Visualization Bars */
+        .bar-container { background-color: #e0e0e0; border-radius: 10px; height: 20px; width: 100%; margin: 10px 0; overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; background-color: #ff9800; width: 0%; transition: width 0.5s ease-out; }
+        .bar-label { position: absolute; top: 0; left: 0; width: 100%; text-align: center; line-height: 20px; font-size: 0.75rem; color: white; text-shadow: 0 0 3px rgba(0,0,0,0.3); font-weight: 600; }
+
+        /* Buttons */
+        .btn { background-color: #ff9800; border: none; padding: 16px; color: white; border-radius: 12px; font-size: 1.1rem; font-weight: bold; width: 100%; cursor: pointer; margin-top: auto; display: block; text-decoration: none; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2); transition: background-color 0.2s; box-sizing: border-box; }
+        .btn:hover { background-color: #f57c00; }
+
+        /* Info Box */
+        .info-card { background-color: #fff3e0; border: 1px solid #ffe0b2; }
+        .info-list { list-style: none; padding: 0; margin: 10px 0; font-size: 0.9rem; color: #555; }
+        .info-list li { margin-bottom: 8px; padding-left: 20px; position: relative; }
+        .info-list li::before { content: "•"; color: #ff9800; font-weight: bold; position: absolute; left: 0; }
+        .quote { font-style: italic; color: #e65100; font-size: 0.9rem; margin-top: 15px; border-left: 3px solid #ff9800; padding-left: 10px; }
+
+        /* Page Visibility */
+        .page { display: none; animation: fadeIn 0.3s; }
+        .page.active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Solar saver</h1>
+        <p class="subtitle">Neighborhood Energy Hub</p>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('simple')">Basic Savings</div>
+        <div class="tab" onclick="switchTab('advanced')">Surplus Power</div>
+    </div>
+
+    <!-- PAGE 1: BASIC CALCULATOR -->
+    <div id="simple" class="page active">
+        <div class="card">
+            <h3>Your Situation</h3>
+
+            <div class="input-group">
+                <span class="label">Number of Solar Panels</span>
+                <input type="number" min="0" value="10" id="panels" oninput="calcSimple()">
+            </div>
+
+            <div class="input-group">
+                <span class="label">Monthly Energy Bill (&euro;)</span>
+                <input type="number" min="0" value="180" id="bill" oninput="calcSimple()">
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Estimated Results</h3>
+            <div class="result-box">
+                <div class="label" style="text-align: center;">Annual Savings</div>
+                <div class="big-number" id="savingDisplay">&euro; 420</div>
+                <div class="small-note">vs. Gas/Heat Pump</div>
+            </div>
+            <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
+            <div class="result-box">
+                <div class="label" style="text-align: center;">Solar Earn-Back Time</div>
+                <div class="med-number" id="roiDisplay">4.5 Years</div>
+                <div class="small-note">Reduced from 7.5 years</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: SURPLUS CALCULATOR -->
+    <div id="advanced" class="page">
+        <div class="card">
+            <h3>Your Surplus Energy</h3>
+            <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;">How much electricity do you export to the grid per year?</p>
+
+            <div class="input-group">
+                <span class="label">Excess Electricity (kWh)</span>
+                <input type="number" min="0" value="2000" id="excess" oninput="calcAdvanced()">
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Sand Battery Performance</h3>
+
+            <div style="margin-bottom: 20px;">
+                <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span>Energy Wasted (Grid)</span>
+                    <span>0%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: 0%; background: #d32f2f;"></div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="color:#e65100; font-weight: 600;">Stored in Sand Battery</span>
+                    <span style="color:#e65100; font-weight: 600;">100%</span>
+                </div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: 100%;"></div>
+                    <div class="bar-label" id="storedDisplay">2000 kWh Heat Stored</div>
+                </div>
+            </div>
+
+            <p class="small-note" style="margin-top: 5px;">We use 100% of your surplus to heat the neighborhood.</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Value Created</h3>
+            <div class="result-box">
+                <div class="label" style="text-align: center;">Your "Solar Bonus" Value</div>
+                <div class="med-number" id="bonusDisplay">&euro; 240</div>
+                <div class="small-note">Heat credits earned per year</div>
+            </div>
+            <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
+            <div class="result-box">
+                <div class="label" style="text-align: center;">Total Annual Bill Reduction</div>
+                <div class="big-number" id="totalSaveDisplay">&euro; 440</div>
+                <div class="small-note">Fixed Savings + Solar Bonus</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW LOGIC & BREAKDOWN SECTION -->
+    <div class="card info-card">
+        <h3 style="color: #e65100; margin-bottom: 10px;">How We Calculate This</h3>
+        <ul class="info-list">
+            <li><strong>Base Savings:</strong> You save ~&euro;200/year by avoiding heat pump maintenance fees.</li>
+            <li><strong>Solar Value:</strong> We pay &euro;0.12 per kWh for your surplus heat—beating current grid export fees.</li>
+            <li><strong>Efficiency:</strong> Our bulk heating is ~8% cheaper than individual gas or electric systems.</li>
+        </ul>
+        <div class="quote">
+            "Our algorithm factors in post-2027 energy prices, beating grid export fees while undercutting gas prices."
+        </div>
+    </div>
+
+    <a href="https://sites.google.com/view/solarsaver/home" target="_blank" class="btn">Join the Pilot</a>
+
+</div>
+
+<script>
+
+    // --- LOGIC START ---
+
+    function switchTab(tabName) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+        // Show selected
+        document.getElementById(tabName).classList.add('active');
+
+        // Update Tab Style
+        if(tabName === 'simple') {
+            document.querySelectorAll('.tab')[0].classList.add('active');
+        } else {
+            document.querySelectorAll('.tab')[1].classList.add('active');
+        }
+    }
+
+    function calcSimple() {
+        let pInput = document.getElementById("panels").value;
+        let bInput = document.getElementById("bill").value;
+
+        // Fallback to 0 if empty
+        let p = pInput ? parseInt(pInput) : 0;
+        let b = bInput ? parseInt(bInput) : 0;
+
+        // Logic: Fixed saving (~200) + Efficiency (10% of bill) + Solar impact
+        let annualSavings = 200 + (b * 12 * 0.08) + (p * 15);
+
+        // ROI logic
+        let roi = 7.5 - (p * 0.12);
+        if (roi < 4.0) roi = 4.0;
+
+        // Using Unicode escape sequence for Euro symbol to prevent encoding glitches
+        document.getElementById("savingDisplay").innerText = "\u20AC " + Math.round(annualSavings);
+        document.getElementById("roiDisplay").innerText = roi.toFixed(1) + " Years";
+    }
+
+    function calcAdvanced() {
+        let excessInput = document.getElementById("excess").value;
+        let excess = excessInput ? parseInt(excessInput) : 0;
+
+        document.getElementById("storedDisplay").innerText = excess + " kWh Heat Stored";
+
+        // Logic:
+        // Value of heat credit = ~€0.12 per kWh (cheaper than gas, valuable for us)
+        let bonusValue = excess * 0.12;
+
+        // Base fixed savings for connecting to the network (maintenance etc)
+        let baseSavings = 200;
+        let totalSavings = baseSavings + bonusValue;
+
+        // Using Unicode escape sequence for Euro symbol
+        document.getElementById("bonusDisplay").innerText = "\u20AC " + Math.round(bonusValue);
+        document.getElementById("totalSaveDisplay").innerText = "\u20AC " + Math.round(totalSavings);
+    }
+
+    // Initialize
+    calcSimple();
+    calcAdvanced();
+
+    // --- LOGIC END ---
+</script>
+
+</body>
+</html>
