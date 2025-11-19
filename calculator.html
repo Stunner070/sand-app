@@ -223,29 +223,6 @@
         .roi-value { font-size: 1.2rem; font-weight: 700; color: #e65100; }
         .small-roi-note { font-size: 0.7rem; color: #888; }
 
-        /* Scroll reveal animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 {
-            transition-delay: 0.2s;
-        }
-
-        .reveal-delay-2 {
-            transition-delay: 0.4s;
-        }
-
-        .reveal-delay-3 {
-            transition-delay: 0.6s;
-        }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -276,13 +253,13 @@
 <div class="container">
 
 
-    <div class="header reveal">
+    <div class="header">
         <h1>Solar Saver</h1>
         <p class="subtitle" id="subtitle-text">Neighborhood Shared Sandbattery</p>
     </div>
 
     <!-- Navigation Tabs -->
-    <div class="tabs reveal reveal-delay-1">
+    <div class="tabs">
         <div class="tab active" onclick="switchTab('simple')" id="tab-simple">Simple</div>
         <div class="tab" onclick="switchTab('advanced')" id="tab-advanced">Surplus</div>
         <div class="tab" onclick="switchTab('pro')" id="tab-pro">Pro Calc</div>
@@ -291,7 +268,7 @@
 
     <!-- PAGE 1: SIMPLE CALCULATOR -->
     <div id="simple" class="page active">
-        <div class="card reveal reveal-delay-2">
+        <div class="card">
             <h3 id="simple-h3">Your Situation</h3>
             <div class="input-group">
                 <span class="label" id="label-panels">Number of Solar Panels</span>
@@ -302,7 +279,7 @@
                 <input type="number" min="0" value="180" id="bill" oninput="calcSimple()">
             </div>
         </div>
-        <div class="card reveal reveal-delay-3">
+        <div class="card">
             <h3 id="results-h3">Estimated Results</h3>
             <div class="result-box">
                 <div class="label" style="text-align: center;" id="label-annual">Annual Savings</div>
@@ -888,23 +865,6 @@
         });
     });
 
-    // Scroll reveal animation
-    function revealOnScroll() {
-        const reveals = document.querySelectorAll('.reveal');
-
-        reveals.forEach(reveal => {
-            const windowHeight = window.innerHeight;
-            const elementTop = reveal.getBoundingClientRect().top;
-            const elementVisible = 150;
-
-            if (elementTop < windowHeight - elementVisible) {
-                reveal.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', revealOnScroll);
-    window.addEventListener('load', revealOnScroll);
 
     // --- LOGIC END ---
 </script>
