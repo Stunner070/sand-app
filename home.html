@@ -407,6 +407,30 @@
             color: #888;
         }
 
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 {
+            transition-delay: 0.2s;
+        }
+
+        .reveal-delay-2 {
+            transition-delay: 0.4s;
+        }
+
+        .reveal-delay-3 {
+            transition-delay: 0.6s;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hamburger {
@@ -476,7 +500,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero reveal">
         <h1>SolarVault</h1>
         <p class="subtitle">Use more of your own solar power, cut battery costs, and boost your returns.</p>
         <p>Transform your solar energy into valuable heat storage. Join the energy revolution and maximize your investment while contributing to a sustainable future.</p>
@@ -488,7 +512,7 @@
 
     <!-- Mission Section -->
     <div class="container">
-        <section id="mission">
+        <section id="mission" class="reveal">
             <h2>Our Mission</h2>
             <div class="mission-content">
                 <p>Many people with solar panels generate extra green energy, but cannot use it all themselves and face limitations like a congested electricity grid, which leads to the customer paying when giving back.</p>
@@ -497,30 +521,30 @@
         </section>
 
         <!-- Benefits Section -->
-        <section id="benefits">
+        <section id="benefits" class="reveal">
             <h2>Why Our Product?</h2>
             <div class="benefits-grid">
-                <div class="benefit-card">
+                <div class="benefit-card reveal reveal-delay-1">
                     <div class="icon">💰</div>
                     <h3>Reduce Energy Costs</h3>
                     <p>Significantly lower your monthly energy bills by maximizing your solar panel efficiency.</p>
                 </div>
-                <div class="benefit-card">
+                <div class="benefit-card reveal reveal-delay-2">
                     <div class="icon">☀️</div>
                     <h3>Maximize Solar Usage</h3>
                     <p>Use 100% of your solar panel output instead of selling it back at unfavorable rates.</p>
                 </div>
-                <div class="benefit-card">
+                <div class="benefit-card reveal reveal-delay-3">
                     <div class="icon">🔥</div>
                     <h3>High-Temperature Storage</h3>
                     <p>Store heat up to 1000°C with our innovative sand battery technology.</p>
                 </div>
-                <div class="benefit-card">
+                <div class="benefit-card reveal reveal-delay-1">
                     <div class="icon">⚡</div>
                     <h3>High Efficiency</h3>
                     <p>Achieve 80% efficiency compared to traditional 60% battery systems.</p>
                 </div>
-                <div class="benefit-card">
+                <div class="benefit-card reveal reveal-delay-2">
                     <div class="icon">🌍</div>
                     <h3>Sustainable Future</h3>
                     <p>Contribute to the energy transition and help build a greener tomorrow.</p>
@@ -529,30 +553,30 @@
         </section>
 
         <!-- Process Section -->
-        <section id="process">
+        <section id="process" class="reveal">
             <h2>How Does Registration Work?</h2>
             <div class="process-steps">
-                <div class="step">
+                <div class="step reveal reveal-delay-1">
                     <div class="step-number">1</div>
                     <h3>Registration</h3>
                     <p>Register below by providing your contact details and basic information about your solar setup.</p>
                 </div>
-                <div class="step">
+                <div class="step reveal reveal-delay-2">
                     <div class="step-number">2</div>
                     <h3>Meeting</h3>
                     <p>After registration, we'll contact you to schedule a meeting. Both online and in-person options are available.</p>
                 </div>
-                <div class="step">
+                <div class="step reveal reveal-delay-3">
                     <div class="step-number">3</div>
                     <h3>Neighborhood Analysis</h3>
                     <p>We analyze your neighborhood to assess feasibility and gauge community interest. This ensures the shared battery solution works for everyone.</p>
                 </div>
-                <div class="step">
+                <div class="step reveal reveal-delay-1">
                     <div class="step-number">4</div>
                     <h3>Quote</h3>
                     <p>With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.</p>
                 </div>
-                <div class="step">
+                <div class="step reveal reveal-delay-2">
                     <div class="step-number">5</div>
                     <h3>Installation</h3>
                     <p>Once you agree with the quote and plan, we'll schedule the installation at your convenience.</p>
@@ -561,7 +585,7 @@
         </section>
 
         <!-- Prototype Video Section -->
-        <section id="prototype">
+        <section id="prototype" class="reveal">
             <h2>See Our Prototype in Action</h2>
             <div style="max-width: 800px; margin: 25px auto; background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                 <video controls style="width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
@@ -576,7 +600,7 @@
     </div>
 
     <!-- CTA Section -->
-    <section class="cta-section" id="register">
+    <section class="cta-section reveal" id="register">
         <h2>Ready to Dive In With Us?</h2>
         <p>Be among the first to experience the future of energy storage.</p>
         <a href="calculator.html" class="btn">Calculate Your Savings</a>
@@ -828,6 +852,24 @@
                 navMenu.classList.remove('active');
             });
         });
+
+        // Scroll reveal animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 150;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', revealOnScroll);
     </script>
 </body>
 </html>
