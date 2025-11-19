@@ -243,6 +243,12 @@
             border-radius: 16px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
         .step-number {
@@ -428,7 +434,7 @@
                 <div class="benefit-card">
                     <div class="icon">🔥</div>
                     <h3>High-Temperature Storage</h3>
-                    <p>Store heat up to 600°C with our innovative sand battery technology.</p>
+                    <p>Store heat up to 1000°C with our innovative sand battery technology.</p>
                 </div>
                 <div class="benefit-card">
                     <div class="icon">⚡</div>
@@ -459,11 +465,16 @@
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
+                    <h3>Neighborhood Analysis</h3>
+                    <p>We analyze your neighborhood to assess feasibility and gauge community interest. This ensures the shared battery solution works for everyone.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
                     <h3>Quote</h3>
                     <p>With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.</p>
                 </div>
                 <div class="step">
-                    <div class="step-number">4</div>
+                    <div class="step-number">5</div>
                     <h3>Installation</h3>
                     <p>Once you agree with the quote and plan, we'll schedule the installation at your convenience.</p>
                 </div>
@@ -552,7 +563,7 @@
                 benefit2Title: "Maximize Solar Usage",
                 benefit2Text: "Use 100% of your solar panel output instead of selling it back at unfavorable rates.",
                 benefit3Title: "High-Temperature Storage",
-                benefit3Text: "Store heat up to 600°C with our innovative sand battery technology.",
+                benefit3Text: "Store heat up to 1000°C with our innovative shared sand battery technology.",
                 benefit4Title: "High Efficiency",
                 benefit4Text: "Achieve 80% efficiency compared to traditional 60% battery systems.",
                 benefit5Title: "Sustainable Future",
@@ -562,10 +573,12 @@
                 step1Text: "Register below by providing your contact details and basic information about your solar setup.",
                 step2Title: "Meeting",
                 step2Text: "After registration, we'll contact you to schedule a meeting. Both online and in-person options are available.",
-                step3Title: "Quote",
-                step3Text: "With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.",
-                step4Title: "Installation",
-                step4Text: "Once you agree with the quote and plan, we'll schedule the installation at your convenience.",
+                step3Title: "Neighborhood Analysis",
+                step3Text: "We analyze your neighborhood to assess feasibility and gauge community interest. This ensures the shared battery solution works for everyone.",
+                step4Title: "Quote",
+                step4Text: "With insights from our meeting, we'll create a customized quote and plan for your needs. Changes are possible at this stage.",
+                step5Title: "Installation",
+                step5Text: "Once you agree with the quote and plan, we'll schedule the installation at your convenience.",
                 prototypeTitle: "See Our Prototype in Action",
                 prototypeText: "Watch our working prototype demonstrate how sand battery technology stores and releases thermal energy efficiently.",
                 ctaTitle: "Ready to Dive In With Us?",
@@ -600,7 +613,7 @@
                 benefit2Title: "Maximaliseer Zonne-energie Gebruik",
                 benefit2Text: "Gebruik 100% van je zonnepaneel output in plaats van het terug te verkopen tegen ongunstige tarieven.",
                 benefit3Title: "Hoge-Temperatuur Opslag",
-                benefit3Text: "Sla warmte op tot 600°C met onze innovatieve zandbatterij technologie.",
+                benefit3Text: "Sla warmte op tot 1000°C met onze innovatieve gedeelde zandbatterij technologie.",
                 benefit4Title: "Hoge Efficiëntie",
                 benefit4Text: "Bereik 80% efficiëntie vergeleken met traditionele 60% batterijsystemen.",
                 benefit5Title: "Duurzame Toekomst",
@@ -610,10 +623,12 @@
                 step1Text: "Registreer hieronder door je contactgegevens en basisinformatie over je zonne-installatie te verstrekken.",
                 step2Title: "Afspraak",
                 step2Text: "Na registratie nemen we contact met je op om een afspraak in te plannen. Zowel online als persoonlijke opties zijn beschikbaar.",
-                step3Title: "Offerte",
-                step3Text: "Met inzichten uit onze afspraak maken we een op maat gemaakte offerte en plan voor jouw behoeften. Wijzigingen zijn in deze fase mogelijk.",
-                step4Title: "Installatie",
-                step4Text: "Zodra je akkoord gaat met de offerte en het plan, plannen we de installatie op een moment dat jou uitkomt.",
+                step3Title: "Buurtanalyse",
+                step3Text: "We analyseren je buurt om de haalbaarheid te beoordelen en de interesse van de gemeenschap te peilen. Dit zorgt ervoor dat de gedeelde batterij oplossing voor iedereen werkt.",
+                step4Title: "Offerte",
+                step4Text: "Met inzichten uit onze afspraak maken we een op maat gemaakte offerte en plan voor jouw behoeften. Wijzigingen zijn in deze fase mogelijk.",
+                step5Title: "Installatie",
+                step5Text: "Zodra je akkoord gaat met de offerte en het plan, plannen we de installatie op een moment dat jou uitkomt.",
                 prototypeTitle: "Zie Ons Prototype in Actie",
                 prototypeText: "Bekijk hoe ons werkende prototype demonstreert hoe zandbatterij technologie thermische energie efficiënt opslaat en vrijgeeft.",
                 ctaTitle: "Klaar om Met Ons Mee te Doen?",
@@ -686,6 +701,8 @@
             steps[2].querySelector("p").textContent = t.step3Text;
             steps[3].querySelector("h3").textContent = t.step4Title;
             steps[3].querySelector("p").textContent = t.step4Text;
+            steps[4].querySelector("h3").textContent = t.step5Title;
+            steps[4].querySelector("p").textContent = t.step5Text;
 
             // Prototype Section
             document.querySelector("#prototype h2").textContent = t.prototypeTitle;
