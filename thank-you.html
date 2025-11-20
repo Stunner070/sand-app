@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0EMVKTQQ7V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-0EMVKTQQ7V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5;url=home.html">
+    <title>Thank You - SolarSaver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, rgba(19,15,10,0.9), rgba(130,113,83,0.9)),
+                        url('images/hero-image.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .thank-you-container {
+            max-width: 600px;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            color: #ff9800;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #333;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background-color: #ff9800;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.3);
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #f57c00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4);
+        }
+
+        .redirect-text {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <div class="success-icon">✅</div>
+        <h1>Thank You!</h1>
+        <p>Your message has been successfully sent. We'll get back to you soon!</p>
+        <p style="font-size: 1rem; color: #666;">
+            Our team at Solar Saver will review your information and contact you within 1-2 business days.
+        </p>
+        <a href="home.html" class="btn">Return to Home</a>
+        <p class="redirect-text">You will be automatically redirected to the home page in 5 seconds...</p>
+    </div>
+
+    <script>
+        // Track successful form submission in Google Analytics
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'form_submitted_successfully', {
+                'event_category': 'Contact',
+                'event_label': 'Thank You Page'
+            });
+        }
+    </script>
+</body>
+</html>
+
