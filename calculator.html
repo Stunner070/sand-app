@@ -315,7 +315,7 @@
     <!-- PAGE 2: SURPLUS CALCULATOR -->
     <div id="advanced" class="page">
         <div class="card">
-            <h3 id="advanced-h3">Your Surplus Energy</h3>
+            <h3 id="advanced-h3" onclick="toggleAutoIncrementSurplus()">Your Surplus Energy</h3>
             <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;" id="advanced-desc">How much electricity do you export to the grid per year?</p>
             <div class="input-group">
                 <span class="label" id="label-excess">Excess Electricity (kWh)</span>
@@ -385,7 +385,7 @@
     <!-- PAGE 3: PRO CALCULATOR (UPDATED) -->
     <div id="pro" class="page">
         <div class="card">
-            <h3 id="pro-h3">Full Analysis</h3>
+            <h3 id="pro-h3" onclick="toggleAutoIncrement()">Full Analysis</h3>
             <div class="input-group">
                 <span class="label" id="label-pro-panels">Total Solar Panels</span>
                 <input type="number" min="0" value="12" id="pro-panels" oninput="calcPro()">
@@ -851,6 +851,79 @@
 
         document.getElementById("proRoiDisplay").innerText = solarRoiString + " " + translations[currentLang].years;
         document.getElementById("contributionRoiProDisplay").innerText = contributionRoiString + " " + translations[currentLang].years;
+    }
+
+    // Auto-increment functionality for Pro Calc
+    let autoIncrementInterval = null;
+    let isAutoIncrementing = false;
+
+    function toggleAutoIncrement() {
+        const excessInput = document.getElementById("pro-excess");
+
+        if (!isAutoIncrementing) {
+            // Start auto-increment
+            isAutoIncrementing = true;
+
+            // Set default values
+            document.getElementById("pro-panels").value = 12;
+            document.getElementById("pro-bill").value = 200;
+            excessInput.value = 0; // Start from 0
+
+            // Start incrementing excess energy
+            autoIncrementInterval = setInterval(() => {
+                let currentValue = parseInt(excessInput.value) || 0;
+                currentValue += 1; // Increment by 1 kWh each step (very smooth)
+                excessInput.value = currentValue;
+                calcPro(); // Update calculations in real-time
+            }, 200); // Update every 200ms for slower, smooth animation
+        } else {
+            // Stop auto-increment
+            stopAutoIncrement();
+        }
+    }
+
+    function stopAutoIncrement() {
+        if (autoIncrementInterval) {
+            clearInterval(autoIncrementInterval);
+            autoIncrementInterval = null;
+        }
+        isAutoIncrementing = false;
+    }
+
+    // Auto-increment functionality for Surplus tab
+    let autoIncrementIntervalSurplus = null;
+    let isAutoIncrementingSurplus = false;
+
+    function toggleAutoIncrementSurplus() {
+        const excessInput = document.getElementById("excess");
+
+        if (!isAutoIncrementingSurplus) {
+            // Start auto-increment
+            isAutoIncrementingSurplus = true;
+
+            // Set default values
+            document.getElementById("panels-advanced").value = 10;
+            excessInput.value = 0; // Start from 0
+
+            // Start incrementing excess energy
+            autoIncrementIntervalSurplus = setInterval(() => {
+                let currentValue = parseInt(excessInput.value) || 0;
+                currentValue += 1; // Increment by 1 kWh each step (very smooth)
+                excessInput.value = currentValue;
+                calcAdvanced(); // Update calculations in real-time
+            }, 200); // Update every 200ms for slower, smooth animation
+        } else {
+            // Stop auto-increment
+            stopAutoIncrementSurplus();
+        }
+    }
+
+    function stopAutoIncrementSurplus() {
+        if (autoIncrementIntervalSurplus) {
+            clearInterval(autoIncrementIntervalSurplus);
+            autoIncrementIntervalSurplus = null;
+        }
+        isAutoIncrementingSurplus = false;
     }
 
     // Initialize
