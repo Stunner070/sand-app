@@ -141,7 +141,7 @@
             nav .logo { font-size: 1.5rem; }
         }
 
-        .container { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 100vh; display: flex; flex-direction: column; position: relative; }
 
         /* Language Toggle */
         .lang-btn {
@@ -170,9 +170,87 @@
         .tab { flex: 1; padding: 10px 5px; cursor: pointer; border-radius: 20px; color: #666; font-weight: 600; transition: 0.3s; font-size: 0.85rem; white-space: nowrap; margin: 2px; }
         .tab.active { background-color: #ff9800; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.15); }
 
+        /* Page Layout */
+        #simple, #advanced, #pro {
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .calculator-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .breakdown-section {
+            position: sticky;
+            top: 80px;
+        }
+
+        @media (max-width: 968px) {
+            #simple, #advanced, #pro {
+                grid-template-columns: 1fr;
+            }
+            .breakdown-section {
+                position: relative;
+                top: 0;
+            }
+        }
+
         /* Cards */
         .card { background-color: #ffffff; border-radius: 16px; padding: 24px; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: left; border: 1px solid #f0f0f0; }
         .card h3 { margin-top: 0; color: #333; font-size: 1.1rem; margin-bottom: 15px;}
+
+        /* Calculation Breakdown Styles */
+        .breakdown-card {
+            background: linear-gradient(135deg, #fff7e6 0%, #ffffff 100%);
+            border: 2px solid #ff9800;
+        }
+
+        .breakdown-card h3 {
+            color: #e65100;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .calc-step {
+            background: #ffffff;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .calc-step-title {
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .calc-formula {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 8px;
+            border-radius: 4px;
+            margin: 5px 0;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .calc-result {
+            font-weight: bold;
+            color: #ff9800;
+            margin-top: 5px;
+        }
+
+        .calc-note {
+            font-size: 0.8rem;
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
 
         /* Inputs */
         .input-group { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
@@ -224,13 +302,68 @@
         /* Page Visibility */
         .page { display: none; animation: fadeIn 0.3s; }
         .page.active { display: block; }
+        #simple.active, #advanced.active, #pro.active { display: grid; }
 
         /* New ROI Styles */
         .roi-container { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
-        .roi-item { margin-bottom: 10px; }
-        .roi-label { font-size: 0.9rem; color: #555; }
+        .roi-item { margin-bottom: 10px; position: relative; }
+        .roi-label { font-size: 0.9rem; color: #555; display: flex; align-items: center; gap: 5px; }
         .roi-value { font-size: 1.2rem; font-weight: 700; color: #e65100; }
         .small-roi-note { font-size: 0.7rem; color: #888; }
+
+        /* Info Icon Styles */
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background-color: #ff9800;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .info-icon:hover {
+            background-color: #f57c00;
+        }
+
+        .info-tooltip {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 25px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            width: 280px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .info-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid #333;
+        }
+
+        .info-icon:hover .info-tooltip,
+        .info-icon:focus .info-tooltip {
+            display: block;
+        }
 
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -278,35 +411,77 @@
 
     <!-- PAGE 1: SIMPLE CALCULATOR -->
     <div id="simple" class="page active">
-        <div class="card">
-            <h3 id="simple-h3">Your Situation</h3>
-            <div class="input-group">
-                <span class="label" id="label-panels">Number of Solar Panels</span>
-                <input type="number" min="0" value="10" id="panels" oninput="calcSimple()">
+        <div class="calculator-section">
+            <div class="card">
+                <h3 id="simple-h3">Your Situation</h3>
+                <div class="input-group">
+                    <span class="label" id="label-panels">Number of Solar Panels</span>
+                    <input type="number" min="0" value="10" id="panels" oninput="calcSimple()">
+                </div>
+                <div class="input-group">
+                    <span class="label" id="label-bill">Monthly Energy Bill (&euro;)</span>
+                    <input type="number" min="0" value="180" id="bill" oninput="calcSimple()">
+                </div>
             </div>
-            <div class="input-group">
-                <span class="label" id="label-bill">Monthly Energy Bill (&euro;)</span>
-                <input type="number" min="0" value="180" id="bill" oninput="calcSimple()">
+            <div class="card">
+                <h3 id="results-h3">Estimated Results</h3>
+                <div class="result-box">
+                    <div class="label" style="text-align: center;" id="label-annual">Annual Savings</div>
+                    <div class="big-number" id="savingDisplay">&euro; 420</div>
+                    <div class="small-note" id="note-annual">vs. Gas/Heat Pump</div>
+                </div>
+
+                <div class="roi-container">
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-roi-solar-simple">Solar Earn-Back Time</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">The time it takes to recover your solar panel investment through energy savings. Calculated as: Solar Installation Cost (€300/panel) ÷ Annual Solar Production Value</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="roiDisplay">4.5 Years</div>
+                    </div>
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-roi-sand-simple">Connection Fee ROI</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">Time to earn back the one-time connection fee through annual savings from our energy management system. Calculated as: Connection Fee ÷ Total Annual Savings</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="contributionRoiSimpleDisplay">9.7 Years</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <h3 id="results-h3">Estimated Results</h3>
-            <div class="result-box">
-                <div class="label" style="text-align: center;" id="label-annual">Annual Savings</div>
-                <div class="big-number" id="savingDisplay">&euro; 420</div>
-                <div class="small-note" id="note-annual">vs. Gas/Heat Pump</div>
-            </div>
 
-            <div class="roi-container">
-                <div class="roi-item">
-                    <div class="roi-label" id="label-roi-solar-simple">Solar Earn-Back Time</div>
-                    <div class="roi-value" id="roiDisplay">4.5 Years</div>
-                    <div class="small-roi-note" id="note-roi">Reduced from 7.5 years</div>
+        <div class="breakdown-section">
+            <div class="card breakdown-card">
+                <h3 id="breakdown-title-simple">💡 Calculation Breakdown</h3>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step1-title-simple">Step 1: Base Savings</div>
+                    <div class="calc-formula" id="breakdown-step1-formula-simple">Fixed Savings = €200/year</div>
+                    <div class="calc-note" id="breakdown-step1-note-simple">You avoid heat pump maintenance costs by using our shared sandbattery system.</div>
                 </div>
-                <div class="roi-item">
-                    <div class="roi-label" id="label-roi-sand-simple">Connection Fee ROI</div>
-                    <div class="roi-value" id="contributionRoiSimpleDisplay">9.7 Years</div>
-                    <div class="small-roi-note" id="note-contribution-roi-simple">Time to earn back the connection fee.</div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step2-title-simple">Step 2: Efficiency Gain</div>
+                    <div class="calc-formula" id="breakdown-step2-formula-simple">Monthly Bill × 12 × 8%</div>
+                    <div class="calc-formula" id="simple-calc-eff">€<span id="simple-calc-bill">180</span> × 12 × 0.08 = €<span id="simple-calc-eff-result">173</span></div>
+                    <div class="calc-note" id="breakdown-step2-note-simple">Our collective heating system is 8% more efficient than individual gas/electric systems.</div>
+                </div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step3-title-simple">Step 3: Solar Bonus</div>
+                    <div class="calc-formula" id="breakdown-step3-formula-simple">Panels × €15/panel/year</div>
+                    <div class="calc-formula" id="simple-calc-solar"><span id="simple-calc-panels">10</span> panels × €15 = €<span id="simple-calc-solar-result">150</span></div>
+                    <div class="calc-note" id="breakdown-step3-note-simple">We pay €0.12/kWh for your excess energy, much better than grid rates (~€0.04/kWh).</div>
+                </div>
+
+                <div class="calc-step" style="background: #fff7e6; border-left-color: #e65100; border-left-width: 5px;">
+                    <div class="calc-step-title" id="breakdown-total-title-simple">Total Annual Savings</div>
+                    <div class="calc-formula">€200 + €<span id="simple-total-eff">173</span> + €<span id="simple-total-solar">150</span></div>
+                    <div class="calc-result">= €<span id="simple-total-result">523</span>/<span id="breakdown-year-simple">year</span></div>
                 </div>
             </div>
         </div>
@@ -314,69 +489,113 @@
 
     <!-- PAGE 2: SURPLUS CALCULATOR -->
     <div id="advanced" class="page">
-        <div class="card">
-            <h3 id="advanced-h3" onclick="toggleAutoIncrementSurplus()">Your Surplus Energy</h3>
-            <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;" id="advanced-desc">How much electricity do you export to the grid per year?</p>
-            <div class="input-group">
-                <span class="label" id="label-excess">Excess Electricity (kWh)</span>
-                <input type="number" min="0" value="2000" id="excess" oninput="calcAdvanced()">
+        <div class="calculator-section">
+            <div class="card">
+                <h3 id="advanced-h3" onclick="toggleAutoIncrementSurplus()">Your Surplus Energy</h3>
+                <p class="label" style="margin-bottom: 15px; font-weight: 400; color: #666;" id="advanced-desc">How much electricity do you export to the grid per year?</p>
+                <div class="input-group">
+                    <span class="label" id="label-excess">Excess Electricity (kWh)</span>
+                    <input type="number" min="0" value="2000" id="excess" oninput="calcAdvanced()">
+                </div>
+                <div class="input-group">
+                    <span class="label" id="label-panels-advanced">Number of Solar Panels</span>
+                    <input type="number" min="0" value="10" id="panels-advanced" oninput="calcAdvanced()">
+                </div>
             </div>
-            <div class="input-group">
-                <span class="label" id="label-panels-advanced">Number of Solar Panels</span>
-                <input type="number" min="0" value="10" id="panels-advanced" oninput="calcAdvanced()">
+            <div class="card">
+                <h3 id="perf-h3">Sand Battery Performance</h3>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <span class="label" id="label-efficiency">Battery Efficiency</span>
+                    <span class="value-display">100%</span>
+                </div>
+                <hr style="border-color: #eee; opacity: 1; margin: 10px 0 20px 0;">
+
+                <div style="margin-bottom: 20px;">
+                    <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span id="label-waste">Energy Wasted (Grid)</span>
+                        <span>0%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: 0%; background: #d32f2f;"></div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="color:#e65100; font-weight: 600;" id="label-stored">Neighborhood Shared Sandbattery</span>
+                        <span style="color:#e65100; font-weight: 600;">100%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: 100%;"></div>
+                        <div class="bar-label" id="storedDisplay">2000 kWh Heat Stored</div>
+                    </div>
+                </div>
+                <p class="small-note" style="margin-top: 5px;" id="note-perf">We use 100% of your surplus to heat the neighborhood.</p>
+            </div>
+            <div class="card">
+                <h3 id="value-h3">Total Value Created</h3>
+                <div class="result-box">
+                    <div class="label" style="text-align: center;" id="label-bonus">Your "Solar Bonus" Value</div>
+                    <div class="med-number" id="bonusDisplay">&euro; 240</div>
+                    <div class="small-note" id="note-bonus">Heat credits earned per year</div>
+                </div>
+                <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
+                <div class="result-box">
+                    <div class="label" style="text-align: center;" id="label-total">Total Annual Bill Reduction</div>
+                    <div class="big-number" id="totalSaveDisplay">&euro; 440</div>
+                    <div class="small-note" id="note-total">Fixed Savings + Solar Bonus</div>
+                </div>
+
+                <div class="roi-container">
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-roi-solar-advanced">Solar Earn-Back Time</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">The time it takes to recover your solar panel investment through energy savings. Calculated as: Solar Installation Cost (€300/panel) ÷ Annual Solar Production Value</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="roiAdvancedDisplay">4.5 Years</div>
+                    </div>
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-roi-sand-advanced">Connection Fee ROI</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">Time to earn back the one-time connection fee through annual savings from our energy management system. Calculated as: Connection Fee ÷ Total Annual Savings</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="contributionRoiAdvancedDisplay">9.7 Years</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card">
-            <h3 id="perf-h3">Sand Battery Performance</h3>
-            <div class="input-group" style="margin-bottom: 0;">
-                <span class="label" id="label-efficiency">Battery Efficiency</span>
-                <span class="value-display">100%</span>
-            </div>
-            <hr style="border-color: #eee; opacity: 1; margin: 10px 0 20px 0;">
 
-            <div style="margin-bottom: 20px;">
-                <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span id="label-waste">Energy Wasted (Grid)</span>
-                    <span>0%</span>
-                </div>
-                <div class="bar-container">
-                    <div class="bar-fill" style="width: 0%; background: #d32f2f;"></div>
-                </div>
-            </div>
-            <div style="margin-bottom: 10px;">
-                <div class="label" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                    <span style="color:#e65100; font-weight: 600;" id="label-stored">Neighborhood Shared Sandbattery</span>
-                    <span style="color:#e65100; font-weight: 600;">100%</span>
-                </div>
-                <div class="bar-container">
-                    <div class="bar-fill" style="width: 100%;"></div>
-                    <div class="bar-label" id="storedDisplay">2000 kWh Heat Stored</div>
-                </div>
-            </div>
-            <p class="small-note" style="margin-top: 5px;" id="note-perf">We use 100% of your surplus to heat the neighborhood.</p>
-        </div>
-        <div class="card">
-            <h3 id="value-h3">Total Value Created</h3>
-            <div class="result-box">
-                <div class="label" style="text-align: center;" id="label-bonus">Your "Solar Bonus" Value</div>
-                <div class="med-number" id="bonusDisplay">&euro; 240</div>
-                <div class="small-note" id="note-bonus">Heat credits earned per year</div>
-            </div>
-            <hr style="border-color: #eee; opacity: 1; margin: 15px 0;">
-            <div class="result-box">
-                <div class="label" style="text-align: center;" id="label-total">Total Annual Bill Reduction</div>
-                <div class="big-number" id="totalSaveDisplay">&euro; 440</div>
-                <div class="small-note" id="note-total">Fixed Savings + Solar Bonus</div>
-            </div>
+        <div class="breakdown-section">
+            <div class="card breakdown-card">
+                <h3 id="breakdown-title-adv">💡 Calculation Breakdown</h3>
 
-            <div class="roi-container">
-                <div class="roi-item">
-                    <div class="roi-label" id="label-roi-solar-advanced">Solar Earn-Back Time</div>
-                    <div class="roi-value" id="roiAdvancedDisplay">4.5 Years</div>
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step1-title-adv">Step 1: Base Savings</div>
+                    <div class="calc-formula" id="breakdown-step1-formula-adv">Fixed Savings = €200/year</div>
+                    <div class="calc-note" id="breakdown-step1-note-adv">You avoid heat pump maintenance costs by using our shared sandbattery system.</div>
                 </div>
-                <div class="roi-item">
-                    <div class="roi-label" id="label-roi-sand-advanced">Connection Fee ROI</div>
-                    <div class="roi-value" id="contributionRoiAdvancedDisplay">9.7 Years</div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step2-title-adv">Step 2: Energy Conversion</div>
+                    <div class="calc-formula" id="breakdown-step2-formula-adv">Excess kWh × Battery Efficiency</div>
+                    <div class="calc-formula"><span id="adv-calc-excess">2000</span> kWh × 100% = <span id="adv-calc-stored">2000</span> kWh</div>
+                    <div class="calc-note" id="breakdown-step2-note-adv">Your surplus electricity is converted to heat and stored in the sandbattery at 600°C.</div>
+                </div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step3-title-adv">Step 3: Solar Bonus Value</div>
+                    <div class="calc-formula" id="breakdown-step3-formula-adv">Stored Energy × €0.12/kWh</div>
+                    <div class="calc-formula"><span id="adv-calc-stored2">2000</span> kWh × €0.12 = €<span id="adv-calc-bonus">240</span></div>
+                    <div class="calc-note" id="breakdown-step3-note-adv">We pay €0.12 per kWh for your excess energy - triple what the grid offers!</div>
+                </div>
+
+                <div class="calc-step" style="background: #fff7e6; border-left-color: #e65100; border-left-width: 5px;">
+                    <div class="calc-step-title" id="breakdown-total-title-adv">Total Annual Savings</div>
+                    <div class="calc-formula">€200 + €<span id="adv-total-bonus">240</span></div>
+                    <div class="calc-result">= €<span id="adv-total-result">440</span>/<span id="breakdown-year-adv">year</span></div>
                 </div>
             </div>
         </div>
@@ -384,52 +603,110 @@
 
     <!-- PAGE 3: PRO CALCULATOR (UPDATED) -->
     <div id="pro" class="page">
-        <div class="card">
-            <h3 id="pro-h3" onclick="toggleAutoIncrement()">Full Analysis</h3>
-            <div class="input-group">
-                <span class="label" id="label-pro-panels">Total Solar Panels</span>
-                <input type="number" min="0" value="12" id="pro-panels" oninput="calcPro()">
+        <div class="calculator-section">
+            <div class="card">
+                <h3 id="pro-h3" onclick="toggleAutoIncrement()">Full Analysis</h3>
+                <div class="input-group">
+                    <span class="label" id="label-pro-panels">Total Solar Panels</span>
+                    <input type="number" min="0" value="12" id="pro-panels" oninput="calcPro()">
+                </div>
+                <div class="input-group">
+                    <span class="label" id="label-pro-bill">Current Monthly Bill (&euro;)</span>
+                    <input type="number" min="50" value="200" id="pro-bill" oninput="calcPro()">
+                </div>
+                <div class="input-group">
+                    <span class="label" id="label-pro-excess">Excess Energy (kWh/yr)</span>
+                    <input type="number" min="0" value="2500" id="pro-excess" oninput="calcPro()">
+                </div>
             </div>
-            <div class="input-group">
-                <span class="label" id="label-pro-bill">Current Monthly Bill (&euro;)</span>
-                <input type="number" min="50" value="200" id="pro-bill" oninput="calcPro()">
-            </div>
-            <div class="input-group">
-                <span class="label" id="label-pro-excess">Excess Energy (kWh/yr)</span>
-                <input type="number" min="0" value="2500" id="pro-excess" oninput="calcPro()">
+
+            <div class="card">
+                <h3 id="pro-results-h3">Your Personal Solar Saver Plan</h3>
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                    <span class="label" id="breakdown-fixed">Fixed Maint. Savings</span>
+                    <span style="font-weight:bold; color:#2e7d32;" id="val-fixed">+ &euro;200</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                    <span class="label" id="breakdown-eff">Efficiency Gain (8%)</span>
+                    <span style="font-weight:bold; color:#2e7d32;" id="val-eff">+ &euro;192</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                    <span class="label" id="breakdown-solar">Solar Surplus Bonus</span>
+                    <span style="font-weight:bold; color:#e65100;" id="val-solar">+ &euro;300</span>
+                </div>
+
+                <div class="result-box" style="background:#f9fbe7; padding:15px; border-radius:10px; border:1px solid #c5e1a5;">
+                    <div class="label" style="text-align: center; color:#33691e;" id="label-pro-total">Total Annual Benefit</div>
+                    <div class="big-number" style="color:#33691e;" id="proTotalDisplay">&euro; 692</div>
+                </div>
+
+                <div class="roi-container">
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-pro-roi">Solar Earn-Back Time</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">The time it takes to recover your solar panel investment through energy savings. Calculated as: Solar Installation Cost (€300/panel) ÷ Annual Solar Production Value</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="proRoiDisplay">4.5 Years</div>
+                    </div>
+                    <div class="roi-item">
+                        <div class="roi-label">
+                            <span id="label-contribution-roi">Connection Fee ROI</span>
+                            <span class="info-icon" tabindex="0">i
+                                <span class="info-tooltip">Time to earn back the one-time connection fee through annual savings from our energy management system. Calculated as: Connection Fee ÷ Total Annual Savings</span>
+                            </span>
+                        </div>
+                        <div class="roi-value" id="contributionRoiProDisplay">9.7 Years</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <h3 id="pro-results-h3">Your Personal Solar Saver Plan</h3>
+        <div class="breakdown-section">
+            <div class="card breakdown-card">
+                <h3 id="breakdown-title-pro">💡 Calculation Breakdown</h3>
 
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
-                <span class="label" id="breakdown-fixed">Fixed Maint. Savings</span>
-                <span style="font-weight:bold; color:#2e7d32;" id="val-fixed">+ &euro;200</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:10px;">
-                <span class="label" id="breakdown-eff">Efficiency Gain (8%)</span>
-                <span style="font-weight:bold; color:#2e7d32;" id="val-eff">+ &euro;192</span>
-            </div>
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                <span class="label" id="breakdown-solar">Solar Surplus Bonus</span>
-                <span style="font-weight:bold; color:#e65100;" id="val-solar">+ &euro;300</span>
-            </div>
-
-            <div class="result-box" style="background:#f9fbe7; padding:15px; border-radius:10px; border:1px solid #c5e1a5;">
-                <div class="label" style="text-align: center; color:#33691e;" id="label-pro-total">Total Annual Benefit</div>
-                <div class="big-number" style="color:#33691e;" id="proTotalDisplay">&euro; 692</div>
-            </div>
-
-            <div class="roi-container">
-                <div class="roi-item">
-                    <div class="roi-label" id="label-pro-roi">Solar Earn-Back Time</div>
-                    <div class="roi-value" id="proRoiDisplay">4.5 Years</div>
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step1-title-pro">Step 1: Fixed Maintenance Savings</div>
+                    <div class="calc-formula" id="breakdown-step1-formula-pro">Fixed Savings = €200/year</div>
+                    <div class="calc-note" id="breakdown-step1-note-pro">You avoid heat pump maintenance costs by using our shared sandbattery system.</div>
                 </div>
-                <div class="roi-item">
-                    <div class="roi-label" id="label-contribution-roi">Connection Fee ROI</div>
-                    <div class="roi-value" id="contributionRoiProDisplay">9.7 Years</div>
-                    <div class="small-roi-note" id="note-contribution-roi">Time to earn back the connection fee.</div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step2-title-pro">Step 2: Efficiency Gain (8%)</div>
+                    <div class="calc-formula" id="breakdown-step2-formula-pro">Monthly Bill × 12 × 8%</div>
+                    <div class="calc-formula">€<span id="pro-calc-bill">200</span> × 12 × 0.08 = €<span id="pro-calc-eff">192</span></div>
+                    <div class="calc-note" id="breakdown-step2-note-pro">Our collective heating system is 8% more efficient than individual gas/electric systems.</div>
+                </div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-step3-title-pro">Step 3: Solar Surplus Bonus</div>
+                    <div class="calc-formula" id="breakdown-step3-formula-pro">Excess Energy × €0.12/kWh × 100%</div>
+                    <div class="calc-formula"><span id="pro-calc-excess">2500</span> kWh × €0.12 × 1.0 = €<span id="pro-calc-solar">300</span></div>
+                    <div class="calc-note" id="breakdown-step3-note-pro">Your surplus energy is stored in the sandbattery at 100% efficiency and valued at €0.12/kWh.</div>
+                </div>
+
+                <div class="calc-step" style="background: #fff7e6; border-left-color: #e65100; border-left-width: 5px;">
+                    <div class="calc-step-title" id="breakdown-total-title-pro">Total Annual Benefit</div>
+                    <div class="calc-formula">€200 + €<span id="pro-total-eff">192</span> + €<span id="pro-total-solar">300</span></div>
+                    <div class="calc-result">= €<span id="pro-total-result">692</span>/<span id="breakdown-year-pro">year</span></div>
+                </div>
+
+                <div class="calc-step">
+                    <div class="calc-step-title" id="breakdown-roi-title">ROI Calculations</div>
+                    <div class="calc-formula" style="margin-bottom: 8px;">
+                        <strong id="breakdown-roi-solar">Solar Panels ROI:</strong><br>
+                        <span id="breakdown-roi-solar-formula">(Panels × €300) ÷ Annual Solar Value</span><br>
+                        (<span id="pro-roi-panels">12</span> × €300) ÷ Production = <span id="pro-roi-years">4.5</span> <span id="breakdown-years-pro">years</span>
+                    </div>
+                    <div class="calc-formula">
+                        <strong id="breakdown-roi-connection">Connection Fee ROI:</strong><br>
+                        <span id="breakdown-roi-connection-formula">€5,337 ÷ (Total Benefit + €150)</span><br>
+                        €5,337 ÷ €<span id="pro-roi-benefit">842</span> = <span id="pro-roi-connection">6.3</span> <span id="breakdown-years-pro2">years</span>
+                    </div>
+                    <div class="calc-note" id="breakdown-roi-note">Connection fee is the max regulated grid connection cost. We add €150 maintenance savings to ROI calculation.</div>
                 </div>
             </div>
         </div>
@@ -546,7 +823,39 @@
             noteContributionRoiSimple: "Time to earn back the connection fee.",
             lblRoiSolarAdvanced: "Solar Earn-Back Time",
             lblRoiSandAdvanced: "Connection Fee ROI",
-            btnJoin: "Join the Pilot"
+            btnJoin: "Join the Pilot",
+            // Breakdown section translations
+            breakdownTitle: "💡 Calculation Breakdown",
+            breakdownStep1Title: "Step 1: Base Savings",
+            breakdownStep1Formula: "Fixed Savings = €200/year",
+            breakdownStep1Note: "You avoid heat pump maintenance costs by using our shared sandbattery system.",
+            breakdownStep2TitleSimple: "Step 2: Efficiency Gain",
+            breakdownStep2FormulaSimple: "Monthly Bill × 12 × 8%",
+            breakdownStep2NoteSimple: "Our collective heating system is 8% more efficient than individual gas/electric systems.",
+            breakdownStep3TitleSimple: "Step 3: Solar Bonus",
+            breakdownStep3FormulaSimple: "Panels × €15/panel/year",
+            breakdownStep3NoteSimple: "We pay €0.12/kWh for your excess energy, much better than grid rates (~€0.04/kWh).",
+            breakdownTotalTitle: "Total Annual Savings",
+            breakdownStep2TitleAdv: "Step 2: Energy Conversion",
+            breakdownStep2FormulaAdv: "Excess kWh × Battery Efficiency",
+            breakdownStep2NoteAdv: "Your surplus electricity is converted to heat and stored in the sandbattery at 600°C.",
+            breakdownStep3TitleAdv: "Step 3: Solar Bonus Value",
+            breakdownStep3FormulaAdv: "Stored Energy × €0.12/kWh",
+            breakdownStep3NoteAdv: "We pay €0.12 per kWh for your excess energy - triple what the grid offers!",
+            breakdownTotalTitleAdv: "Total Annual Savings",
+            breakdownStep1TitlePro: "Step 1: Fixed Maintenance Savings",
+            breakdownStep2TitlePro: "Step 2: Efficiency Gain (8%)",
+            breakdownStep3TitlePro: "Step 3: Solar Surplus Bonus",
+            breakdownStep3FormulaPro: "Excess Energy × €0.12/kWh × 100%",
+            breakdownStep3NotePro: "Your surplus energy is stored in the sandbattery at 100% efficiency and valued at €0.12/kWh.",
+            breakdownTotalTitlePro: "Total Annual Benefit",
+            breakdownRoiTitle: "ROI Calculations",
+            breakdownRoiSolar: "Solar Panels ROI:",
+            breakdownRoiSolarFormula: "(Panels × €300) ÷ Annual Solar Value",
+            breakdownRoiConnection: "Connection Fee ROI:",
+            breakdownRoiConnectionFormula: "€5,337 ÷ (Total Benefit + €150)",
+            breakdownRoiNote: "Connection fee is the max regulated grid connection cost. We add €150 maintenance savings to ROI calculation.",
+            years2: "years"
         },
         nl: {
             navHome: "Home",
@@ -611,7 +920,39 @@
             noteContributionRoiSimple: "Tijd om de aansluitkosten terug te verdienen.",
             lblRoiSolarAdvanced: "Terugverdientijd Panelen",
             lblRoiSandAdvanced: "Aansluitkosten Terugverdientijd",
-            btnJoin: "Meld u aan voor de Pilot"
+            btnJoin: "Meld u aan voor de Pilot",
+            // Breakdown section translations
+            breakdownTitle: "💡 Berekening Uitleg",
+            breakdownStep1Title: "Stap 1: Basisbesparing",
+            breakdownStep1Formula: "Vaste Besparing = €200/jaar",
+            breakdownStep1Note: "U vermijdt onderhoudskosten van warmtepompen door ons gedeelde zandbatterij systeem te gebruiken.",
+            breakdownStep2TitleSimple: "Stap 2: Efficiëntiewinst",
+            breakdownStep2FormulaSimple: "Maandelijkse Rekening × 12 × 8%",
+            breakdownStep2NoteSimple: "Ons collectieve verwarmingssysteem is 8% efficiënter dan individuele gas-/elektrische systemen.",
+            breakdownStep3TitleSimple: "Stap 3: Zonne-Bonus",
+            breakdownStep3FormulaSimple: "Panelen × €15/paneel/jaar",
+            breakdownStep3NoteSimple: "Wij betalen €0,12/kWh voor uw overtollige energie, veel beter dan nettarieven (~€0,04/kWh).",
+            breakdownTotalTitle: "Totale Jaarlijkse Besparing",
+            breakdownStep2TitleAdv: "Stap 2: Energieconversie",
+            breakdownStep2FormulaAdv: "Overschot kWh × Batterij Efficiëntie",
+            breakdownStep2NoteAdv: "Uw overtollige elektriciteit wordt omgezet in warmte en opgeslagen in de zandbatterij op 600°C.",
+            breakdownStep3TitleAdv: "Stap 3: Zonne-Bonus Waarde",
+            breakdownStep3FormulaAdv: "Opgeslagen Energie × €0,12/kWh",
+            breakdownStep3NoteAdv: "Wij betalen €0,12 per kWh voor uw overtollige energie - driemaal wat het net biedt!",
+            breakdownTotalTitleAdv: "Totale Jaarlijkse Besparing",
+            breakdownStep1TitlePro: "Stap 1: Vaste Onderhoudsbesparing",
+            breakdownStep2TitlePro: "Stap 2: Efficiëntiewinst (8%)",
+            breakdownStep3TitlePro: "Stap 3: Zonne-Overschot Bonus",
+            breakdownStep3FormulaPro: "Overtollige Energie × €0,12/kWh × 100%",
+            breakdownStep3NotePro: "Uw overtollige energie wordt opgeslagen in de zandbatterij met 100% efficiëntie en gewaardeerd op €0,12/kWh.",
+            breakdownTotalTitlePro: "Totaal Jaarlijks Voordeel",
+            breakdownRoiTitle: "ROI Berekeningen",
+            breakdownRoiSolar: "Zonnepanelen ROI:",
+            breakdownRoiSolarFormula: "(Panelen × €300) ÷ Jaarlijkse Zonnewaarde",
+            breakdownRoiConnection: "Aansluitkosten ROI:",
+            breakdownRoiConnectionFormula: "€5.337 ÷ (Totaal Voordeel + €150)",
+            breakdownRoiNote: "Aansluitkosten zijn de maximale gereguleerde netaansluitkosten. We voegen €150 onderhoudsbesparing toe aan de ROI-berekening.",
+            years2: "jaar"
         }
     };
 
@@ -659,9 +1000,7 @@
 
         // Updated ROI Labels in Simple Tab
         document.getElementById("label-roi-solar-simple").innerHTML = t.lblRoiSolarSimple;
-        document.getElementById("note-roi").innerHTML = t.noteRoi;
         document.getElementById("label-roi-sand-simple").innerHTML = t.lblRoiSandSimple;
-        document.getElementById("note-contribution-roi-simple").innerHTML = t.noteContributionRoiSimple;
 
         // Advanced Tab
         document.getElementById("advanced-h3").innerHTML = t.h3Advanced;
@@ -694,9 +1033,58 @@
         document.getElementById("breakdown-eff").innerHTML = t.lblBreakEff;
         document.getElementById("breakdown-solar").innerHTML = t.lblBreakSolar;
         document.getElementById("label-pro-total").innerHTML = t.lblProTotal;
-        document.getElementById("lblProRoi").innerHTML = t.lblProRoi;
+        document.getElementById("label-pro-roi").innerHTML = t.lblProRoi;
         document.getElementById("label-contribution-roi").innerHTML = t.lblContributionRoi;
-        document.getElementById("note-contribution-roi").innerHTML = t.noteContributionRoi;
+
+        // Breakdown Section - Simple Tab
+        document.getElementById("breakdown-title-simple").innerHTML = t.breakdownTitle;
+        document.getElementById("breakdown-step1-title-simple").innerHTML = t.breakdownStep1Title;
+        document.getElementById("breakdown-step1-formula-simple").innerHTML = t.breakdownStep1Formula;
+        document.getElementById("breakdown-step1-note-simple").innerHTML = t.breakdownStep1Note;
+        document.getElementById("breakdown-step2-title-simple").innerHTML = t.breakdownStep2TitleSimple;
+        document.getElementById("breakdown-step2-formula-simple").innerHTML = t.breakdownStep2FormulaSimple;
+        document.getElementById("breakdown-step2-note-simple").innerHTML = t.breakdownStep2NoteSimple;
+        document.getElementById("breakdown-step3-title-simple").innerHTML = t.breakdownStep3TitleSimple;
+        document.getElementById("breakdown-step3-formula-simple").innerHTML = t.breakdownStep3FormulaSimple;
+        document.getElementById("breakdown-step3-note-simple").innerHTML = t.breakdownStep3NoteSimple;
+        document.getElementById("breakdown-total-title-simple").innerHTML = t.breakdownTotalTitle;
+        document.getElementById("breakdown-year-simple").innerHTML = t.years2;
+
+        // Breakdown Section - Advanced Tab
+        document.getElementById("breakdown-title-adv").innerHTML = t.breakdownTitle;
+        document.getElementById("breakdown-step1-title-adv").innerHTML = t.breakdownStep1Title;
+        document.getElementById("breakdown-step1-formula-adv").innerHTML = t.breakdownStep1Formula;
+        document.getElementById("breakdown-step1-note-adv").innerHTML = t.breakdownStep1Note;
+        document.getElementById("breakdown-step2-title-adv").innerHTML = t.breakdownStep2TitleAdv;
+        document.getElementById("breakdown-step2-formula-adv").innerHTML = t.breakdownStep2FormulaAdv;
+        document.getElementById("breakdown-step2-note-adv").innerHTML = t.breakdownStep2NoteAdv;
+        document.getElementById("breakdown-step3-title-adv").innerHTML = t.breakdownStep3TitleAdv;
+        document.getElementById("breakdown-step3-formula-adv").innerHTML = t.breakdownStep3FormulaAdv;
+        document.getElementById("breakdown-step3-note-adv").innerHTML = t.breakdownStep3NoteAdv;
+        document.getElementById("breakdown-total-title-adv").innerHTML = t.breakdownTotalTitleAdv;
+        document.getElementById("breakdown-year-adv").innerHTML = t.years2;
+
+        // Breakdown Section - Pro Tab
+        document.getElementById("breakdown-title-pro").innerHTML = t.breakdownTitle;
+        document.getElementById("breakdown-step1-title-pro").innerHTML = t.breakdownStep1TitlePro;
+        document.getElementById("breakdown-step1-formula-pro").innerHTML = t.breakdownStep1Formula;
+        document.getElementById("breakdown-step1-note-pro").innerHTML = t.breakdownStep1Note;
+        document.getElementById("breakdown-step2-title-pro").innerHTML = t.breakdownStep2TitlePro;
+        document.getElementById("breakdown-step2-formula-pro").innerHTML = t.breakdownStep2FormulaSimple;
+        document.getElementById("breakdown-step2-note-pro").innerHTML = t.breakdownStep2NoteSimple;
+        document.getElementById("breakdown-step3-title-pro").innerHTML = t.breakdownStep3TitlePro;
+        document.getElementById("breakdown-step3-formula-pro").innerHTML = t.breakdownStep3FormulaPro;
+        document.getElementById("breakdown-step3-note-pro").innerHTML = t.breakdownStep3NotePro;
+        document.getElementById("breakdown-total-title-pro").innerHTML = t.breakdownTotalTitlePro;
+        document.getElementById("breakdown-year-pro").innerHTML = t.years2;
+        document.getElementById("breakdown-roi-title").innerHTML = t.breakdownRoiTitle;
+        document.getElementById("breakdown-roi-solar").innerHTML = t.breakdownRoiSolar;
+        document.getElementById("breakdown-roi-solar-formula").innerHTML = t.breakdownRoiSolarFormula;
+        document.getElementById("breakdown-roi-connection").innerHTML = t.breakdownRoiConnection;
+        document.getElementById("breakdown-roi-connection-formula").innerHTML = t.breakdownRoiConnectionFormula;
+        document.getElementById("breakdown-roi-note").innerHTML = t.breakdownRoiNote;
+        document.getElementById("breakdown-years-pro").innerHTML = t.years2;
+        document.getElementById("breakdown-years-pro2").innerHTML = t.years2;
 
         // General
         document.getElementById("video-h3").innerHTML = t.h3Video;
@@ -755,7 +1143,26 @@
         let p = pInput ? parseInt(pInput) : 0;
         let b = bInput ? parseInt(bInput) : 0;
 
-        let annualSavings = 200 + (b * 12 * 0.08) + (p * 15);
+        // Check if solar panels is zero
+        if (p === 0) {
+            document.getElementById("savingDisplay").innerText = "N/A";
+            document.getElementById("roiDisplay").innerText = "N/A";
+            document.getElementById("contributionRoiSimpleDisplay").innerText = "N/A";
+            return;
+        }
+
+        let efficiencyGain = Math.round(b * 12 * 0.08);
+        let solarBonus = p * 15;
+        let annualSavings = 200 + efficiencyGain + solarBonus;
+
+        // Update breakdown section
+        document.getElementById("simple-calc-bill").innerText = b;
+        document.getElementById("simple-calc-eff-result").innerText = efficiencyGain;
+        document.getElementById("simple-calc-panels").innerText = p;
+        document.getElementById("simple-calc-solar-result").innerText = solarBonus;
+        document.getElementById("simple-total-eff").innerText = efficiencyGain;
+        document.getElementById("simple-total-solar").innerText = solarBonus;
+        document.getElementById("simple-total-result").innerText = Math.round(annualSavings);
 
         // Calculate ROIs
         let solarRoi = calculateSolarRoi(p);
@@ -784,11 +1191,29 @@
         const EFFICIENCY_FACTOR = 1.0;
         const FIXED_SAVINGS = 200;
 
+        // Check if solar panels is zero
+        if (p === 0) {
+            document.getElementById("storedDisplay").innerText = "N/A";
+            document.getElementById("bonusDisplay").innerText = "N/A";
+            document.getElementById("totalSaveDisplay").innerText = "N/A";
+            document.getElementById("roiAdvancedDisplay").innerText = "N/A";
+            document.getElementById("contributionRoiAdvancedDisplay").innerText = "N/A";
+            return;
+        }
+
         document.getElementById("storedDisplay").innerText = excess + " kWh " + translations[currentLang].storedText;
 
         // Solar Bonus = Excess * Price per kWh * 100% Efficiency
         let bonusValue = excess * 0.12 * EFFICIENCY_FACTOR;
         let totalSavings = FIXED_SAVINGS + bonusValue;
+
+        // Update breakdown section
+        document.getElementById("adv-calc-excess").innerText = excess;
+        document.getElementById("adv-calc-stored").innerText = excess;
+        document.getElementById("adv-calc-stored2").innerText = excess;
+        document.getElementById("adv-calc-bonus").innerText = Math.round(bonusValue);
+        document.getElementById("adv-total-bonus").innerText = Math.round(bonusValue);
+        document.getElementById("adv-total-result").innerText = Math.round(totalSavings);
 
         // Calculate ROIs
         let solarRoi = calculateSolarRoi(p);
@@ -818,6 +1243,17 @@
         let bill = billInput ? parseInt(billInput) : 0;
         let excess = excessInput ? parseInt(excessInput) : 0;
 
+        // Check if solar panels is zero
+        if (panels === 0) {
+            document.getElementById("val-fixed").innerText = "N/A";
+            document.getElementById("val-eff").innerText = "N/A";
+            document.getElementById("val-solar").innerText = "N/A";
+            document.getElementById("proTotalDisplay").innerText = "N/A";
+            document.getElementById("proRoiDisplay").innerText = "N/A";
+            document.getElementById("contributionRoiProDisplay").innerText = "N/A";
+            return;
+        }
+
         // --- FINANCIAL LOGIC ---
         const EFFICIENCY_FACTOR = 1.0;
 
@@ -839,6 +1275,19 @@
         document.getElementById("val-eff").innerText = "+ \u20AC " + Math.round(efficiencyGain);
         document.getElementById("val-solar").innerText = "+ \u20AC " + Math.round(solarBonus);
         document.getElementById("proTotalDisplay").innerText = "\u20AC " + Math.round(totalBenefit);
+
+        // Update breakdown section
+        document.getElementById("pro-calc-bill").innerText = bill;
+        document.getElementById("pro-calc-eff").innerText = Math.round(efficiencyGain);
+        document.getElementById("pro-calc-excess").innerText = excess;
+        document.getElementById("pro-calc-solar").innerText = Math.round(solarBonus);
+        document.getElementById("pro-total-eff").innerText = Math.round(efficiencyGain);
+        document.getElementById("pro-total-solar").innerText = Math.round(solarBonus);
+        document.getElementById("pro-total-result").innerText = Math.round(totalBenefit);
+        document.getElementById("pro-roi-panels").innerText = panels;
+        document.getElementById("pro-roi-years").innerText = solarRoi.toFixed(1);
+        document.getElementById("pro-roi-benefit").innerText = Math.round(totalBenefit + 150);
+        document.getElementById("pro-roi-connection").innerText = contributionRoi.toFixed(1);
 
         // Format ROI
         let solarRoiString = solarRoi.toFixed(1);
@@ -927,6 +1376,16 @@
     }
 
     // Initialize
+    // Load saved language preference
+    const savedLang = localStorage.getItem('solarSaverLang');
+    if (savedLang) {
+        currentLang = savedLang;
+    }
+
+    // Apply initial translations
+    applyTranslations();
+
+    // Run initial calculations
     calcSimple();
     calcAdvanced();
     calcPro();
